@@ -1,0 +1,6 @@
+C:\ocr_wz_csh\ocr_wz\ocr_wz\bin\Release\ocr_wz.exe.config
+C:\ocr_wz_csh\ocr_wz\ocr_wz\bin\Release\ocr_wz.exe
+C:\ocr_wz_csh\ocr_wz\ocr_wz\bin\Release\Magick.NET-Q8-x86.dll
+C:\ocr_wz_csh\ocr_wz\ocr_wz\bin\Release\Magick.NET-Q8-x86.xml
+C:\ocr_wz_csh\ocr_wz\ocr_wz\obj\Release\ocr_wz.csprojResolveAssemblyReference.cache
+C:\ocr_wz_csh\ocr_wz\ocr_wz\obj\Release\ocr_wz.exe
