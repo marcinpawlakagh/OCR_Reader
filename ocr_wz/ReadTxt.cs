@@ -69,12 +69,12 @@ namespace ocr_wz
 					{
 						if (ww > 0)
 						{
-							//documents.WzWw WzWw = new documents.WzWw();
 							Console.WriteLine("Tutaj znajdują się WZ i WW"); //dokończyć
 							StreamWriter SW;
 							SW = File.AppendText(fileLogName);
 							SW.WriteLine("W pliku znajdują się dokumenty WZ i dokument WW");
 							SW.Close();	
+							documents.WzWw WzWw = new documents.WzWw(fileNameTXT, fileLogName);
 						}
 						else if (fv > 0)
 						{

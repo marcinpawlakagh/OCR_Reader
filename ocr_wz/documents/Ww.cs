@@ -26,7 +26,7 @@ namespace ocr_wz.documents
 			FileStream fs = new FileStream(fileNameTXT,
 			FileMode.Open, FileAccess.ReadWrite);
 			DataTable docNames = new DataTable();
-			docNames.Columns.Add("WZ", typeof(string));
+			docNames.Columns.Add("WW", typeof(string));
 				try
 				{
 					StreamReader sr = new StreamReader(fs);
@@ -40,7 +40,7 @@ namespace ocr_wz.documents
 								|| (text.Contains("trz") && text.Contains("num"))
 								|| text.Contains("ydanie")
 								|| text.Contains("numer:")
-								|| text.Contains("WW/")
+								|| text.Contains("WW")
 								)
 							{ 
 									Regex regex = new Regex(@"Wyd"); //@"\D"
