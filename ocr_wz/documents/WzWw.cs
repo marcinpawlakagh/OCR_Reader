@@ -43,8 +43,116 @@ namespace ocr_wz.documents
 					|| text.Contains("WZ/")
 					)
 					{
+						Regex regex = new Regex(@"Wyd"); //@"\D"
+						string result = regex.Replace(text, "");
+						result = Regex.Replace(result, @"oduWZ", "");
+						result = Regex.Replace(result, "[a-z]" , "");
+						result = Regex.Replace(result, @"[~`!@#$%^&\*()_+B-EG-RT-Uęóąśłżźćń;:'\|,<.>?""\]\.\-]", "");
+						result = Regex.Replace(result, "2AS", "ZAS");
 						
+						if (result.Contains("WZ"))
+						{
+							result = Regex.Replace(result, @"[a-z0-9A-Z]WZ/", "WZ/");
+							int ileZnakow = result.Count();
+							string licznikWZ;
+							if (ileZnakow > 11)
+							{
+								licznikWZ = Regex.Replace(result, @"WZ/[0-9][0-9]/", "");
+								int licznikWZCount = licznikWZ.Count();
+								if (licznikWZCount > 6)
+								{
+									licznikWZ = licznikWZ.Remove(6);
+								}
+								int licznik = int.Parse(licznikWZ);
+								
+								if (licznik > 99999)
+								{
+									licznikWZ = Regex.Replace(licznikWZ, @"^1" , "");
+									result = result.Remove(startIndex:6) + licznikWZ;
+									result = Regex.Replace(result, "/", "_");
+									ileZnakow = result.Count();
+									docNames.Rows.Add(result);
+								}
+								else
+								{
+									licznikWZ = licznikWZ.Remove(5);
+									result = result.Remove(startIndex:6) + licznikWZ;
+									result = Regex.Replace(result, "/", "_");
+									ileZnakow = result.Count();
+									docNames.Rows.Add(result);
+								}
+								
+							}
+							else if(ileZnakow == 11)
+							{
+								result = Regex.Replace(result, "/", "_");
+								docNames.Rows.Add(result);
+							}
+							
+						}
+						else if (result.Contains("WW"))
+						{
+							result = Regex.Replace(result, @"[a-z0-9A-Z]WW", "WW");
+							int ileZnakow = result.Count();
+							string licznikWW;
+							if (ileZnakow > 11)
+							{
+								licznikWW = Regex.Replace(result, @"WW[0-9][0-9]/", "");
+								int licznikWZCount = licznikWW.Count();
+								if (licznikWZCount > 6)
+								{
+									licznikWW = licznikWW.Remove(6);
+								}
+								int licznik = int.Parse(licznikWW);
+							
+								if (licznik > 999999)
+								{
+									licznikWW = Regex.Replace(licznikWW, @"^1" , "");
+									result = result.Remove(startIndex:6) + licznikWW;
+									result = Regex.Replace(result, "/", "_");
+									ileZnakow = result.Count();
+									docNames.Rows.Add(result);
+								}
+							
+								else
+								{
+									licznikWW = licznikWW.Remove(5);
+									result = result.Remove(startIndex:6) + licznikWW;
+									result = Regex.Replace(result, "/", "_");
+									ileZnakow = result.Count();
+									docNames.Rows.Add(result);
+								}
+							}
+							else if(ileZnakow == 11)
+							{
+								result = Regex.Replace(result, "/", "_");
+								docNames.Rows.Add(result);
+							}
+						}
+						else if(result.Contains("ZAS"))
+						{
+							result = Regex.Replace(result, @"[a-z0-9A-Z]ZAS/", "ZAS/");
+							result = result.Remove(startIndex:13);
+							result = Regex.Replace(result, "/", "_");
+							int ileZnakow = result.Count();
+							docNames.Rows.Add(result);
+						}
 					}
+				}
+				var UniqueRows = docNames.AsEnumerable().Distinct(DataRowComparer.Default);
+				DataTable uniqDocNames = UniqueRows.CopyToDataTable();
+//				StreamWriter SW;
+//				SW = File.AppendText(fileLogName);
+//				SW.WriteLine("Tablica dokumentów:");
+//				SW.Close();
+					
+				foreach (DataRow row in uniqDocNames.Rows)
+				{
+					Console.WriteLine(row.Field<string>(0));
+//					StreamWriter SW1;
+//					SW1 = File.AppendText(fileLogName);
+//					SW1.WriteLine(row.Field<string>(0));
+//					SW1.Close();
 				}
 			}
 			catch (Exception ex)
@@ -53,7 +161,6 @@ namespace ocr_wz.documents
 			}
 			
 			Console.ReadKey();
-			
 		}
 	}
 }
