@@ -19,6 +19,7 @@ namespace ocr_wz.documents
 	/// </summary>
 	public class WzWw
 	{
+		string pdfName;
 		public WzWw(string fileNameTXT, string fileLogName)
 		{
 			conf Config = new conf();
@@ -145,15 +146,62 @@ namespace ocr_wz.documents
 //				SW = File.AppendText(fileLogName);
 //				SW.WriteLine("Tablica dokumentów:");
 //				SW.Close();
-					
+				
+				int ileWZ = 0;
+				int ileWW = 0;
+				int ileZAS = 0;
 				foreach (DataRow row in uniqDocNames.Rows)
 				{
 					Console.WriteLine(row.Field<string>(0));
+					if (row.Field<string>(0).Contains("WZ_"))
+					{
+						ileWZ++;
+					}
+					else if (row.Field<string>(0).Contains("WW_"))
+					{
+						ileWW++;
+					}
+					else if (row.Field<string>(0).Contains("ZAS_"))
+					{
+						ileZAS++;
+					}
 //					StreamWriter SW1;
 //					SW1 = File.AppendText(fileLogName);
 //					SW1.WriteLine(row.Field<string>(0));
 //					SW1.Close();
 				}
+				if (ileWZ + ileWW == ileZAS || ileWZ + ileWW > ileZAS)
+				{
+					foreach (DataRow row in uniqDocNames.Rows)
+					{
+						if (row.Field<string>(0).Contains("WZ_"))
+						{
+							pdfName = fileNameTXT.Replace(".txt", ".pdf");
+							string year = row.Field<string>(0).Remove(5);
+							year = year.Replace("WZ_", "");
+							string docName = row.Field<string>(0);
+							Copy CopyNewName = new Copy(pdfName, year, docName, fileLogName);
+							CopyNewName.CopyWZ();
+						}
+						else if (row.Field<string>(0).Contains("WW_"))
+						{
+							pdfName = fileNameTXT.Replace(".txt", ".pdf");
+							string year = row.Field<string>(0).Remove(4);
+							year = year.Replace("WW", "");
+							string docName = row.Field<string>(0);
+							Copy CopyNewName = new Copy(pdfName, year, docName, fileLogName);
+							CopyNewName.CopyWW();
+						}
+					}
+				string przetworzone = pdfName.Replace("po_ocr\\", "po_ocr\\przetworzone\\");
+				File.Move(pdfName, przetworzone);
+				}
+				
+				else
+				{
+					
+				}
+				Console.WriteLine("WZ = " + ileWZ + "	WW = " + ileWW + "	ZAS = " + ileZAS);
 			}
 			catch (Exception ex)
 			{

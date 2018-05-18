@@ -128,7 +128,7 @@ namespace ocr_wz.documents
 							ileZAS++;
 						}
 					}
-					if (ileWZ == ileZAS | ileWZ > ileZAS)
+					if (ileWZ == ileZAS || ileWZ > ileZAS)
 					{
 						DataTable endTable = new DataTable();
 						foreach (DataRow row in uniqDocNames.Rows)
