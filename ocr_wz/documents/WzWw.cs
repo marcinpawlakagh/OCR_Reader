@@ -142,17 +142,16 @@ namespace ocr_wz.documents
 				}
 				var UniqueRows = docNames.AsEnumerable().Distinct(DataRowComparer.Default);
 				DataTable uniqDocNames = UniqueRows.CopyToDataTable();
-//				StreamWriter SW;
-//				SW = File.AppendText(fileLogName);
-//				SW.WriteLine("Tablica dokumentów:");
-//				SW.Close();
+				StreamWriter SW;
+				SW = File.AppendText(fileLogName);
+				SW.WriteLine("Tablica dokumentów:");
+				SW.Close();
 				
 				int ileWZ = 0;
 				int ileWW = 0;
 				int ileZAS = 0;
 				foreach (DataRow row in uniqDocNames.Rows)
 				{
-					Console.WriteLine(row.Field<string>(0));
 					if (row.Field<string>(0).Contains("WZ_"))
 					{
 						ileWZ++;
@@ -165,10 +164,10 @@ namespace ocr_wz.documents
 					{
 						ileZAS++;
 					}
-//					StreamWriter SW1;
-//					SW1 = File.AppendText(fileLogName);
-//					SW1.WriteLine(row.Field<string>(0));
-//					SW1.Close();
+					StreamWriter SW1;
+					SW1 = File.AppendText(fileLogName);
+					SW1.WriteLine(row.Field<string>(0));
+					SW1.Close();
 				}
 				if (ileWZ + ileWW == ileZAS || ileWZ + ileWW > ileZAS)
 				{
@@ -193,15 +192,68 @@ namespace ocr_wz.documents
 							CopyNewName.CopyWW();
 						}
 					}
-				string przetworzone = pdfName.Replace("po_ocr\\", "po_ocr\\przetworzone\\");
-				File.Move(pdfName, przetworzone);
 				}
-				
 				else
 				{
-					
+					int tableElements = uniqDocNames.Rows.Count;
+					string tableRow = Convert.ToString(uniqDocNames.Rows[0]["WZ"]);
+					for (int i = 0; i < tableElements; i++)
+					{
+						pdfName = fileNameTXT.Replace(".txt", ".pdf");
+						string docName = Convert.ToString(uniqDocNames.Rows[i]["WZ"]);
+						if (i == 0 && docName.Contains("WW"))
+						{
+							string year =  Convert.ToString(uniqDocNames.Rows[i]["WZ"]).Remove(4);
+							year = year.Replace("WW", "");
+							year = year.Replace("_", "");
+							Copy CopyNewName = new Copy(pdfName, year, docName, fileLogName);
+							CopyNewName.CopyWW();
+						}
+						else if (i == 0 && docName.Contains("WZ"))
+						{
+							string year =  Convert.ToString(uniqDocNames.Rows[i]["WZ"]).Remove(5);
+							year = year.Replace("WZ_", "");
+							year = year.Replace("_", "");
+							Copy CopyNewName = new Copy(pdfName, year, docName, fileLogName);
+							CopyNewName.CopyWZ();
+						}
+						else if (i == 0 && docName.Contains("ZAS_") && tableElements < 2)
+						{
+							string year =  Convert.ToString(uniqDocNames.Rows[i]["WZ"]).Remove(6);
+							year = year.Replace("ZAS_", "");
+							Copy CopyNewName = new Copy(pdfName, year, docName, fileLogName);
+							CopyNewName.CopyZAS();
+						}
+						else if(i > 0 && docName.Contains("ZAS_") && (Convert.ToString(uniqDocNames.Rows[i-1]["WZ"])).Contains("ZAS_"))
+						{
+							string year =  Convert.ToString(uniqDocNames.Rows[i]["WZ"]).Remove(6);
+							year = year.Replace("ZAS_", "");
+							Copy CopyNewName = new Copy(pdfName, year, docName, fileLogName);
+							CopyNewName.CopyZAS();
+						}
+						else if (i > 0 && docName.Contains("WZ"))
+						{
+							string year =  Convert.ToString(uniqDocNames.Rows[i]["WZ"]).Remove(5);
+							year = year.Replace("WZ_", "");
+							year = year.Replace("_", "");
+							Copy CopyNewName = new Copy(pdfName, year, docName, fileLogName);
+							CopyNewName.CopyWZ();
+						}
+						else if (i > 0 && docName.Contains("WW"))
+						{
+							string year =  Convert.ToString(uniqDocNames.Rows[i]["WZ"]).Remove(4);
+							year = year.Replace("WW", "");
+							year = year.Replace("_", "");
+							Copy CopyNewName = new Copy(pdfName, year, docName, fileLogName);
+							CopyNewName.CopyWW();
+						}
+					}
 				}
-				Console.WriteLine("WZ = " + ileWZ + "	WW = " + ileWW + "	ZAS = " + ileZAS);
+				
+				string przetworzone = pdfName.Replace("po_ocr\\", "po_ocr\\przetworzone\\");
+				File.Move(pdfName, przetworzone);
+				fs.Close();
+				File.Delete(fileNameTXT);
 			}
 			catch (Exception ex)
 			{

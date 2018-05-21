@@ -176,6 +176,13 @@ namespace ocr_wz.documents
 								Copy CopyNewName = new Copy(pdfName, year, docName, fileLogName);
 								CopyNewName.CopyZAS();
 							}
+							else if (i > 0 && docName.Contains("WZ"))
+							{
+								year = year.Replace("WZ_", "");
+								year = year.Replace("_", "");
+								Copy CopyNewName = new Copy(pdfName, year, docName, fileLogName);
+								CopyNewName.CopyWZ();
+							}
 							
 						}
 						string przetworzone = pdfName.Replace("po_ocr\\", "po_ocr\\przetworzone\\");
