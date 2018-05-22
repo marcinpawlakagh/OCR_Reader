@@ -56,7 +56,7 @@ namespace ocr_wz.documents
 									if (result.Contains("WZ"))
 									{
 										result = Regex.Replace(result, @"[a-z0-9A-ZS]WZ/", "WZ/");
-										result = Regex.Replace(result, @"[S=!-/:-~«„]", "");
+										result = Regex.Replace(result, @"[S=!:-~«„]\WZ", "");
 										int ileZnakow = result.Count();
 										string licznikWZ;
 										if (ileZnakow > 11)
