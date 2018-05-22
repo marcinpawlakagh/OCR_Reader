@@ -42,7 +42,7 @@ namespace ocr_wz
 						{
 							fv++;
 						}
-						else if (text.Contains("yda") && text.Contains("mer") && text.Contains("WZ"))
+						else if (text.Contains("yda") && text.Contains("mer") && (text.Contains("WZ") || text.Contains("WŻ")))
 						{
 							wz++;
 						}
@@ -69,7 +69,7 @@ namespace ocr_wz
 					{
 						if (ww > 0)
 						{
-							Console.WriteLine("Tutaj znajdują się WZ i WW"); //dokończyć
+							Console.WriteLine("Tutaj znajdują się WZ i WW");
 							StreamWriter SW;
 							SW = File.AppendText(fileLogName);
 							SW.WriteLine("W pliku znajdują się dokumenty WZ i dokument WW");

@@ -55,7 +55,7 @@ namespace ocr_wz.documents
 									bool validation = checkWZ.IsMatch(result);
 									
 									
-									if (result.Contains("WW"))
+									if (result.Contains("WW") && result.Contains("/"))
 									{
 										result = Regex.Replace(result, @"[a-z0-9A-Z]WW", "WW");
 										int ileZnakow = result.Count();

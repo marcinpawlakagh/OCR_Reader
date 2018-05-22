@@ -37,7 +37,7 @@ namespace ocr_wz.documents
 					string text = sr.ReadLine().Replace(" ", "");
 					if (
 						  text.Contains("F/")
-					    || text.Contains("Nu") && text.Contains("dow") && text.Contains("du")
+						  || (text.Contains("Nu") && text.Contains("dow") && text.Contains("du"))
 					   )
 					{
 						if (text.Contains("F/"))
@@ -100,9 +100,7 @@ namespace ocr_wz.documents
 					{
 						ileWZ++;
 					}
-					Console.WriteLine(docName);
 				}
-				Console.WriteLine("Fv = " + ileFV + "    WZ = " + ileWZ);
 				
 				if (ileFV == ileWZ || ileWZ > ileFV)
 				{

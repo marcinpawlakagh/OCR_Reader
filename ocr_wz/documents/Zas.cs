@@ -129,7 +129,15 @@ namespace ocr_wz.documents
 			}
 			catch 
 			{
-				
+				fs.Close();
+				string year = "0";
+				pdfName = fileNameTXT.Replace(".txt", ".pdf");
+				string docName = pdfName.Replace(Config.inPath + "\\!ocr\\po_ocr\\", "");
+				Copy CopyNewName = new Copy(pdfName, year, docName, fileLogName);
+				CopyNewName.CopyOther();
+				string przetworzone = pdfName.Replace("po_ocr\\", "po_ocr\\przetworzone\\");
+				File.Move(pdfName, przetworzone);
+				File.Delete(fileNameTXT);
 			}
 		}
 	}

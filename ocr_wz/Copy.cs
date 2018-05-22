@@ -198,5 +198,14 @@ namespace ocr_wz
 				}
 			}
 		}
+		public void CopyOther()
+		{
+			conf Config = new conf();
+			File.Copy(pdfName, Config.inPath +"\\!do_przetworzenia_recznego\\"+ docName );
+			StreamWriter RW;
+			RW = File.AppendText(fileLog);
+			RW.WriteLine(Config.inPath +"\\!do_przetworzenia_recznego\\"+ docName);
+			RW.Close();
+		}
 	}
 }

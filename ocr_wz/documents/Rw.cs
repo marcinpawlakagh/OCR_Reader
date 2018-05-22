@@ -110,7 +110,6 @@ namespace ocr_wz.documents
 						{
 							rw++;
 						}
-						Console.WriteLine(row.Field<string>(0));
 					}
 					if (rw == lp || rw  > lp)
 					{

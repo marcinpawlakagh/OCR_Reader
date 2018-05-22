@@ -21,7 +21,7 @@ namespace ocr_wz
 		{
 			Console.SetWindowSize(110, 30);
 			ExistPath CheckIn = new ExistPath();
-//			ReadTxt reading = new ReadTxt("C:\\ARCHIWUM_WZ\\!skany\\!ocr\\po_ocr\\WWWZ.txt", "C:\\ARCHIWUM_WZ\\!skany\\!ocr\\logi\\files_20180516_115210.txt");
+//			ReadTxt reading = new ReadTxt("C:\\ARCHIWUM_WZ\\!skany\\!ocr\\po_ocr\\WZ_18_06436.txt", "C:\\ARCHIWUM_WZ\\!skany\\!ocr\\logi\\files_20180516_115210.txt");
 			Console.WriteLine("Program do automatycznego przetwarzania skanów dokumentów wykonany przez Marcin Pawlak tel. 797-155-154");
 			conf Config = new conf();	// pobieram konfigurację katalogów wynikowych i źródłowych
 			DateTime thisTime = DateTime.Now;
@@ -42,11 +42,10 @@ namespace ocr_wz
 						}
 					int lines = File.ReadAllLines(fileLogName).Length;
 					Console.WriteLine("Wyeksportowano listę z " + lines.ToString() + " plikami do " + Config.inPath + fileLogName);
-			
 					string [] linesFileLog = File.ReadAllLines(fileLogName);
 						foreach (string fileName in linesFileLog)
 						{
-							string fileLogNameDone = Config.inPath + "\\!ocr\\logi\\" + pathLogName + "\\" + fileName + ".txt";// !!sprawdzić działanie!!
+							string fileLogNameDone = pathLogName + "\\" + fileName + ".txt";// !!sprawdzić działanie!!
 							var t = new Task( () => {Scan Scan = new Scan(fileName, fileLogNameDone);});
 							t.Start();
 						}
@@ -55,22 +54,7 @@ namespace ocr_wz
 			{
 				File.WriteAllText(Config.inPath + "\\!ocr\\logi\\error_" + filesSurfix + ".txt", "Brak plików do przetworzenia!"); //zapisuje log z informacją, że nie było plików do przetworzenia
 			}
-//				MagickReadSettings settings = new MagickReadSettings();
-//				settings.Density = new Density(300,300);
-//				settings.Compression = Compression.Fax;
-//				var t1 = new Task( () => {MagickImageCollection filePDF = new MagickImageCollection();
-//										filePDF.Read("C:\\ARCHIWUM_WZ\\!skany\\F_18_04546.pdf", settings);
-//										filePDF.Write("C:\\ARCHIWUM_WZ\\!skany\\F_18_04546.tif");
-//										});
-//				var t2 = new Task( () => {MagickImageCollection filePDF1 = new MagickImageCollection();
-//										filePDF1.Read("C:\\ARCHIWUM_WZ\\!skany\\raben.pdf", settings);
-//										filePDF1.Write("C:\\ARCHIWUM_WZ\\!skany\\raben.tif");});
-//				
-//				t1.Start();
-//				t2.Start();
-						
-				
-			Console.ReadKey();
+			//Console.ReadKey();
 		}
 	}
 }
