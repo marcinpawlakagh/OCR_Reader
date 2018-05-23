@@ -54,7 +54,17 @@ namespace ocr_wz
 			{
 				File.WriteAllText(Config.inPath + "\\!ocr\\logi\\error_" + filesSurfix + ".txt", "Brak plików do przetworzenia!"); //zapisuje log z informacją, że nie było plików do przetworzenia
 			}
-			
+			foreach (var file in Directory.GetFiles(Path.GetTempPath(), "*.*"))
+			{
+				try
+				{
+					File.Delete(file);
+				}
+				catch
+				{
+					
+				}
+			}
 			Console.ReadKey();
 		}
 	}
