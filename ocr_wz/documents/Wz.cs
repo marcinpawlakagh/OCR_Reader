@@ -48,15 +48,19 @@ namespace ocr_wz.documents
 									Regex regex = new Regex(@"Wyd"); //@"\D"
 									string result = regex.Replace(text, "");
 									result = Regex.Replace(result, @"oduWZ", "");
-									result = Regex.Replace(result, "[a-z]" , "");
-									result = Regex.Replace(result, @"[=~`!@#$%^&\*()_+B-EG-RT-Uęóąśłżźćń;:'\|,<.>?""\]\.\-]", "");
 									result = Regex.Replace(result, "2AS", "ZAS");
 									result = Regex.Replace(result, "WŻ/", "WZ/");
-									
 									if (result.Contains("WZ"))
 									{
-										result = Regex.Replace(result, @"[a-z0-9A-ZS]WZ/", "WZ/");
-										result = Regex.Replace(result, @"[S=!:-~«„]\WZ", "");
+										for (int i = 0; i < result.Length + 10; i++ )
+										{
+											result = Regex.Replace(result, @"[:punct:]WZ/", "WZ/");
+											result = Regex.Replace(result, @"[:alpha:]WZ/", "WZ/");
+											result = Regex.Replace(result, @"[:numeric:]WZ/", "WZ/");
+											result = Regex.Replace(result, @"[-|0-9A-Za-ząęółśżźćń\=„*+',;\._]WZ/", "WZ/");
+										}
+										result = Regex.Replace(result, @"[S]WZ/", "WZ/");
+										result = Regex.Replace(result, "WZWZ/", "WZ/");
 										int ileZnakow = result.Count();
 										string licznikWZ;
 										if (ileZnakow > 11)
@@ -68,6 +72,8 @@ namespace ocr_wz.documents
 											{
 												licznikWZ = licznikWZ.Remove(5);
 											}
+										try
+										{
 											int licznik = int.Parse(licznikWZ);
 											int licznikWZCount = licznikWZ.Count();
 											if (licznikWZCount > 6)
@@ -93,7 +99,11 @@ namespace ocr_wz.documents
 												ileZnakow = result.Count();
 												docNames.Rows.Add(result);
 											}
-											
+										}
+										catch
+										{
+										
+										}
 										}
 										else if(ileZnakow == 11)
 										{
@@ -103,7 +113,14 @@ namespace ocr_wz.documents
 									}
 									else if(result.Contains("ZAS"))
 									{
-										result = Regex.Replace(result, @"[a-z0-9A-Z]ZAS/", "ZAS/");
+										for (int i = 0; i < result.Length + 10; i++ )
+										{
+											result = Regex.Replace(result, @"[:punct:]ZAS/", "ZAS/");
+											result = Regex.Replace(result, @"[:alpha:]ZAS/", "ZAS/");
+											result = Regex.Replace(result, @"[:numeric:]ZAS/", "ZAS/");
+											result = Regex.Replace(result, @"[-|0-9A-Za-ząęółśżźćń\=„*+',;\._]ZAS/", "ZAS/");
+										}
+										result = Regex.Replace(result, @"[^a-z0-9A-Z]ZAS/", "ZAS/");
 										if (result.Length > 13)
 										{
 											result = result.Remove(startIndex:13);

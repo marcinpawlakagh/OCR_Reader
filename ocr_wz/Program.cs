@@ -21,7 +21,7 @@ namespace ocr_wz
 		{
 			Console.SetWindowSize(110, 30);
 			ExistPath CheckIn = new ExistPath();
-//			ReadTxt reading = new ReadTxt("C:\\ARCHIWUM_WZ\\!skany\\!ocr\\po_ocr\\ZAS_18_007161.txt", "C:\\ARCHIWUM_WZ\\!skany\\!ocr\\logi\\files_20180516_115210.txt");
+//			ReadTxt reading = new ReadTxt("C:\\ARCHIWUM_WZ\\!skany\\!ocr\\po_ocr\\WZ_18_06625.txt", "C:\\ARCHIWUM_WZ\\!skany\\!ocr\\logi\\files_20180516_115210.txt");
 			Console.WriteLine("Program do automatycznego przetwarzania skanów dokumentów wykonany przez Marcin Pawlak tel. 797-155-154");
 			conf Config = new conf();	// pobieram konfigurację katalogów wynikowych i źródłowych
 			DateTime thisTime = DateTime.Now;

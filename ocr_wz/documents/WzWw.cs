@@ -53,7 +53,15 @@ namespace ocr_wz.documents
 						
 						if (result.Contains("WZ"))
 						{
-							result = Regex.Replace(result, @"[a-z0-9A-Z]WZ/", "WZ/");
+							for (int i = 0; i < result.Length + 10; i++ )
+							{
+								result = Regex.Replace(result, @"[:punct:]WZ/", "WZ/");
+								result = Regex.Replace(result, @"[:alpha:]WZ/", "WZ/");
+								result = Regex.Replace(result, @"[:numeric:]WZ/", "WZ/");
+								result = Regex.Replace(result, @"[-|0-9A-Za-ząęółśżźćń\=„*+',;\._]WZ/", "WZ/");
+							}
+							result = Regex.Replace(result, @"[S]WZ/", "WZ/");
+							result = Regex.Replace(result, "WZWZ/", "WZ/");
 							int ileZnakow = result.Count();
 							string licznikWZ;
 							if (ileZnakow > 11)
@@ -93,6 +101,15 @@ namespace ocr_wz.documents
 						}
 						else if (result.Contains("WW"))
 						{
+							for (int i = 0; i < result.Length + 10; i++ )
+							{
+								result = Regex.Replace(result, @"[:punct:]WW", "WW");
+								result = Regex.Replace(result, @"[:alpha:]WW", "WW");
+								result = Regex.Replace(result, @"[:numeric:]WW", "WW");
+								result = Regex.Replace(result, @"[-|0-9A-Za-ząęółśżźćń\=„*+',;\._]WW", "WW");
+							}
+							result = Regex.Replace(result, @"[S]WW", "WW");
+							result = Regex.Replace(result, "WWWW", "WW");
 							result = Regex.Replace(result, @"[a-z0-9A-Z]WW", "WW");
 							int ileZnakow = result.Count();
 							string licznikWW;
@@ -132,6 +149,15 @@ namespace ocr_wz.documents
 						}
 						else if(result.Contains("ZAS"))
 						{
+							for (int i = 0; i < result.Length + 10; i++ )
+							{
+								result = Regex.Replace(result, @"[:punct:]ZAS/", "ZAS/");
+								result = Regex.Replace(result, @"[:alpha:]ZAS/", "ZAS/");
+								result = Regex.Replace(result, @"[:numeric:]ZAS/", "ZAS/");
+								result = Regex.Replace(result, @"[-|0-9A-Za-ząęółśżźćń\=„*+',;\._]ZAS/", "ZAS/");
+							}
+							result = Regex.Replace(result, @"[S]ZAS/", "ZAS/");
+							result = Regex.Replace(result, "ZZAS/", "ZAS/");
 							result = Regex.Replace(result, @"[a-z0-9A-Z]ZAS/", "ZAS/");
 							result = result.Remove(startIndex:13);
 							result = Regex.Replace(result, "/", "_");

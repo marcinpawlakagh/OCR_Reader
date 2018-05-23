@@ -56,6 +56,14 @@ namespace ocr_wz.documents
 						{
 							Regex regex = new Regex(@"Wyd"); //@"\D"
 							string result = regex.Replace(text, "");
+							result = Regex.Replace(result, @"WZJ/", "WZ/");
+							for (int i = 0; i < result.Length + 10; i++ )
+							{
+								result = Regex.Replace(result, @"[:punct:]WZ/", "WZ/");
+								result = Regex.Replace(result, @"[:alpha:]WZ/", "WZ/");
+								result = Regex.Replace(result, @"[:numeric:]WZ/", "WZ/");
+								result = Regex.Replace(result, @"[-|0-9A-Za-ząęółśżźćń\=„*+',;\._]WZ/", "WZ/");
+							}
 							result = Regex.Replace(result, @"oduWZ", "");
 							result = Regex.Replace(result, "[a-z]" , "");
 							result = Regex.Replace(result, @"[~`!@#$%^&\*()_+B-EG-RT-Uęóąśłżźćń;:'\|,<.>?""\]\.\-]", "");
