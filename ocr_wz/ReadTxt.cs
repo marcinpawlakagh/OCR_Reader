@@ -42,7 +42,7 @@ namespace ocr_wz
 						{
 							fv++;
 						}
-						else if ((text.Contains("yda") && text.Contains("mer") && ((text.Contains("WZ") || text.Contains("WŻ")))) || (text.Contains("WZ/")))
+						else if ((text.Contains("yda") && text.Contains("mer") && (text.Contains("WZ") || text.Contains("WŻ") || text.Contains("wz"))) || (text.Contains("WZ/")))
 						{
 							wz++;
 						}
@@ -94,11 +94,11 @@ namespace ocr_wz
 						}
 						else if (raben > 0)
 						{
-							Console.WriteLine("Tutaj znajdują się WZ i Raben"); //dokończyć
 							StreamWriter SW;
 							SW = File.AppendText(fileLogName);
 							SW.WriteLine("W pliku znajdują się dokumenty WZ i dokument dostawy Raben");
 							SW.Close();	
+							documents.WzRaben WzRaben = new documents.WzRaben(fileNameTXT, fileLogName);
 						}
 						else if (schenker > 0)
 						{

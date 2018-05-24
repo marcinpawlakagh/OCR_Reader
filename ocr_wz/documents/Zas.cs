@@ -46,23 +46,31 @@ namespace ocr_wz.documents
 									result = Regex.Replace(result, @"[~`!@#$%^&\*()_+B-EG-RT-Uęóąśłżźćń;:'\|,<.>?""\]\.\-]", "");
 									
 									result = Regex.Replace(result, "2AS", "ZAS");
-									
-									if (result.Contains("ZAS"))
-									{
-										result = Regex.Replace(result, @"[a-z0-9A-Z]ZAS/", "ZAS/");
-										int ileZnakow = result.Count();
-										if (ileZnakow > 13)
+									result = Regex.Replace(result, "2A", "ZA");
+									result = Regex.Replace(result, "ZA[0-9A-Za-z]/", "ZAS/");
+										for (int i = 0; i < result.Length + 10; i++ )
 										{
-											result = result.Remove(13);
-											result = Regex.Replace(result, "/", "_");
-											docNames.Rows.Add(result);
+											result = Regex.Replace(result, @"[:punct:]ZAS/", "ZAS/");
+											result = Regex.Replace(result, @"[:alpha:]ZAS/", "ZAS/");
+											result = Regex.Replace(result, @"[:numeric:]ZAS/", "ZAS/");
+											result = Regex.Replace(result, @"[-|0-9A-Za-ząęółśżźćń\=„*+',;\._<>""()«%]ZAS/", "ZAS/");
 										}
-										else if(ileZnakow == 11)
-										{
-											result = Regex.Replace(result, "/", "_");
-											docNames.Rows.Add(result);
-										}
-									}
+											if (result.Contains("ZAS"))
+											{
+												result = Regex.Replace(result, @"[a-z0-9A-Z]ZAS/", "ZAS/");
+												int ileZnakow = result.Count();
+													if (ileZnakow > 13)
+													{
+														result = result.Remove(13);
+														result = Regex.Replace(result, "/", "_");
+														docNames.Rows.Add(result);
+													}
+													else if(ileZnakow == 11)
+													{
+														result = Regex.Replace(result, "/", "_");
+														docNames.Rows.Add(result);
+													}
+											}
 									
 							}
 					}

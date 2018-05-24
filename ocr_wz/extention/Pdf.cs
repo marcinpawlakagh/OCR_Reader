@@ -110,6 +110,17 @@ namespace ocr_wz
 			SW = File.AppendText(fileLogName);
 			SW.WriteLine("Przetworzenie do przeszukiwalnego pliku PDF ...   OK");
 			SW.Close();
+			foreach (var file in Directory.GetFiles(Path.GetTempPath(), "*.*"))
+			{
+				try
+				{
+					File.Delete(file);
+				}
+				catch
+				{
+					
+				}
+			}
 		}
 	}
 }

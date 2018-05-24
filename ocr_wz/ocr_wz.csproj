@@ -52,14 +52,19 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="compilerDocName\Wz.cs" />
+    <Compile Include="compilerDocName\Zas.cs" />
     <Compile Include="conf.cs" />
     <Compile Include="Copy.cs" />
+    <Compile Include="counter\Wz.cs" />
+    <Compile Include="counter\Zas.cs" />
     <Compile Include="documents\Fv.cs" />
     <Compile Include="documents\Raben.cs" />
     <Compile Include="documents\Rw.cs" />
     <Compile Include="documents\Schenker.cs" />
     <Compile Include="documents\Ww.cs" />
     <Compile Include="documents\Wz.cs" />
+    <Compile Include="documents\WzRaben.cs" />
     <Compile Include="documents\WzWw.cs" />
     <Compile Include="documents\Zas.cs" />
     <Compile Include="ExistPath.cs" />
@@ -76,6 +81,7 @@
     <Compile Include="ReadDoc.cs" />
     <Compile Include="ReadTxt.cs" />
     <Compile Include="Scan.cs" />
+    <Compile Include="yearDocs.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -84,6 +90,8 @@
   <ItemGroup>
     <Folder Include="extention" />
     <Folder Include="documents" />
+    <Folder Include="compilerDocName" />
+    <Folder Include="counter" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

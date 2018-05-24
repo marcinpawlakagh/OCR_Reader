@@ -37,6 +37,8 @@ namespace ocr_wz.documents
 						string text = sr.ReadLine().Replace(" ", "");
 							if (
 								text.Contains("mówienie")
+								|| (text.Contains("am") && text.Contains("wi") && text.Contains("nie") && text.Contains("AS"))
+								|| text.Contains("ZAS")
 								|| (text.Contains("ze") && text.Contains("wn") && text.Contains("me"))
 								|| (text.Contains("trz") && text.Contains("num"))
 								|| text.Contains("ydanie")
@@ -45,91 +47,20 @@ namespace ocr_wz.documents
 								|| text.Contains("WŻ/")
 								)
 							{ 
-									Regex regex = new Regex(@"Wyd"); //@"\D"
-									string result = regex.Replace(text, "");
-									result = Regex.Replace(result, @"oduWZ", "");
-									result = Regex.Replace(result, "2AS", "ZAS");
-									result = Regex.Replace(result, "WŻ/", "WZ/");
-									if (result.Contains("WZ"))
+									if (text.Contains("WZ"))
 									{
-										for (int i = 0; i < result.Length + 10; i++ )
-										{
-											result = Regex.Replace(result, @"[:punct:]WZ/", "WZ/");
-											result = Regex.Replace(result, @"[:alpha:]WZ/", "WZ/");
-											result = Regex.Replace(result, @"[:numeric:]WZ/", "WZ/");
-											result = Regex.Replace(result, @"[-|0-9A-Za-ząęółśżźćń\=„*+',;\._]WZ/", "WZ/");
-										}
-										result = Regex.Replace(result, @"[S]WZ/", "WZ/");
-										result = Regex.Replace(result, "WZWZ/", "WZ/");
-										int ileZnakow = result.Count();
-										string licznikWZ;
-										if (ileZnakow > 11)
-										{
-											licznikWZ = Regex.Replace(result, @"WZ/[0-9][0-9]/", "");
-											licznikWZ = Regex.Replace(licznikWZ, @"[AĄ]", "4");
-											licznikWZ = Regex.Replace(licznikWZ, @"[A-Za-z!-/:-~«„]", "");
-											if (licznikWZ.Length > 5)
-											{
-												licznikWZ = licznikWZ.Remove(5);
-											}
-										try
-										{
-											int licznik = int.Parse(licznikWZ);
-											int licznikWZCount = licznikWZ.Count();
-											if (licznikWZCount > 6)
-											{
-												licznikWZ = licznikWZ.Remove(6);
-											}
-											if (licznik > 99999)
-											{
-												licznikWZ = Regex.Replace(licznikWZ, @"^1" , "");
-												result = result.Remove(startIndex:6) + licznikWZ;
-												result = Regex.Replace(result, "/", "_");
-												ileZnakow = result.Count();
-												docNames.Rows.Add(result);
-											}
-											else
-											{
-												if (licznikWZ.Length > 5)
-												{
-												licznikWZ = licznikWZ.Remove(5);
-												}
-												result = result.Remove(startIndex:6) + licznikWZ;
-												result = Regex.Replace(result, "/", "_");
-												ileZnakow = result.Count();
-												docNames.Rows.Add(result);
-											}
-										}
-										catch
-										{
-										
-										}
-										}
-										else if(ileZnakow == 11)
-										{
-											result = Regex.Replace(result, "/", "_");
-											docNames.Rows.Add(result);
-										}
+										compilerDocName.Wz WzName = new ocr_wz.compilerDocName.Wz(text);
+										string result = WzName.resultWZ;
+										counter.Wz licznikWz = new ocr_wz.counter.Wz(result);
+										docNames.Rows.Add(licznikWz.result0);
 									}
-									else if(result.Contains("ZAS"))
+									else if(text.Contains("ZAS") || text.Contains("2AS") || text.Contains("ŻAS"))
 									{
-										for (int i = 0; i < result.Length + 10; i++ )
-										{
-											result = Regex.Replace(result, @"[:punct:]ZAS/", "ZAS/");
-											result = Regex.Replace(result, @"[:alpha:]ZAS/", "ZAS/");
-											result = Regex.Replace(result, @"[:numeric:]ZAS/", "ZAS/");
-											result = Regex.Replace(result, @"[-|0-9A-Za-ząęółśżźćń\=„*+',;\._]ZAS/", "ZAS/");
-										}
-										result = Regex.Replace(result, @"[^a-z0-9A-Z]ZAS/", "ZAS/");
-										if (result.Length > 13)
-										{
-											result = result.Remove(startIndex:13);
-										}
-										result = Regex.Replace(result, "/", "_");
-										int ileZnakow = result.Count();
-										docNames.Rows.Add(result);
+										compilerDocName.Zas ZasName = new ocr_wz.compilerDocName.Zas(text);
+										string result = ZasName.resultZas;
+										counter.Zas licznikZas = new ocr_wz.counter.Zas(result);
+										docNames.Rows.Add(licznikZas.result0);
 									}
-									
 							}
 					}
 					var UniqueRows = docNames.AsEnumerable().Distinct(DataRowComparer.Default);
@@ -167,7 +98,6 @@ namespace ocr_wz.documents
 						{
 							if (row.Field<string>(0).Contains("WZ_"))
 							{
-								pdfName = fileNameTXT.Replace(".txt", ".pdf");
 								string year = row.Field<string>(0).Remove(5);
 								year = year.Replace("WZ_", "");
 								string docName = row.Field<string>(0);
@@ -186,7 +116,6 @@ namespace ocr_wz.documents
 						string tableRow = Convert.ToString(uniqDocNames.Rows[0]["WZ"]);
 						for (int i = 0; i < tableElements; i++)
 						{
-							pdfName = fileNameTXT.Replace(".txt", ".pdf");
 							string year = Convert.ToString(uniqDocNames.Rows[i]["WZ"]).Remove(6);
 							string docName = Convert.ToString(uniqDocNames.Rows[i]["WZ"]);
 							if ( i == 0 && docName.Contains("WZ_"))

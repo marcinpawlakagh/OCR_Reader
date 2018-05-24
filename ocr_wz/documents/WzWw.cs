@@ -47,19 +47,23 @@ namespace ocr_wz.documents
 						Regex regex = new Regex(@"Wyd"); //@"\D"
 						string result = regex.Replace(text, "");
 						result = Regex.Replace(result, @"oduWZ", "");
-						result = Regex.Replace(result, "[a-z]" , "");
-						result = Regex.Replace(result, @"[~`!@#$%^&\*()_+B-EG-RT-Uęóąśłżźćń;:'\|,<.>?""\]\.\-]", "");
 						result = Regex.Replace(result, "2AS", "ZAS");
+						result = Regex.Replace(result, "WŻ/", "WZ/");
+						result = Regex.Replace(result, "wz", "WZ/");
 						
 						if (result.Contains("WZ"))
 						{
-							for (int i = 0; i < result.Length + 10; i++ )
+							string ile = result;
+							for (int i = 0; i < ile.Length + 10; i++ )
 							{
 								result = Regex.Replace(result, @"[:punct:]WZ/", "WZ/");
-								result = Regex.Replace(result, @"[:alpha:]WZ/", "WZ/");
+								result = Regex.Replace(result, @"[[]]WZ/", "WZ/");
+								result = Regex.Replace(result, @"[.]WZ/", "WZ/");
 								result = Regex.Replace(result, @"[:numeric:]WZ/", "WZ/");
-								result = Regex.Replace(result, @"[-|0-9A-Za-ząęółśżźćń\=„*+',;\._]WZ/", "WZ/");
+								result = Regex.Replace(result, @"[-|0-9A-Za-ząęółśżźćń\=„*+',;\._<>""()«%]WZ/", "WZ/");
 							}
+							result = Regex.Replace(result, @"WZ/8/", "WZ/18/");
+							result = Regex.Replace(result, @"WZ/[i!l]8/", "WZ/18/");
 							result = Regex.Replace(result, @"[S]WZ/", "WZ/");
 							result = Regex.Replace(result, "WZWZ/", "WZ/");
 							int ileZnakow = result.Count();
@@ -104,9 +108,10 @@ namespace ocr_wz.documents
 							for (int i = 0; i < result.Length + 10; i++ )
 							{
 								result = Regex.Replace(result, @"[:punct:]WW", "WW");
-								result = Regex.Replace(result, @"[:alpha:]WW", "WW");
+								result = Regex.Replace(result, @"[[]]WW", "WW");
+								result = Regex.Replace(result, @"[.]WW", "WW");
 								result = Regex.Replace(result, @"[:numeric:]WW", "WW");
-								result = Regex.Replace(result, @"[-|0-9A-Za-ząęółśżźćń\=„*+',;\._]WW", "WW");
+								result = Regex.Replace(result, @"[-|0-9A-Za-ząęółśżźćń\=„*+',;\._<>""()«%]WW", "WW");
 							}
 							result = Regex.Replace(result, @"[S]WW", "WW");
 							result = Regex.Replace(result, "WWWW", "WW");
