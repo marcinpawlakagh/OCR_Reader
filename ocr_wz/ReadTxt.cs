@@ -54,7 +54,7 @@ namespace ocr_wz
 						{
 							rw++;
 						}
-						else if (text.Contains("ZA") && text.Contains("CZO") && text.Contains("DOKU"))
+						else if ((text.Contains("ZA") && text.Contains("CZO") && text.Contains("DOKU")) || text.Contains("Raben"))
 						{
 							raben++;
 						}

@@ -65,18 +65,14 @@ namespace ocr_wz.documents
 				SW = File.AppendText(fileLogName);
 				SW.WriteLine("Tablica dokumentów:");
 				SW.Close();
+				int ileWW = 0;
+				int ileZAS = 0;
 				foreach (DataRow row in uniqDocNames.Rows)
 				{
 					StreamWriter SW1;
 					SW1 = File.AppendText(fileLogName);
 					SW1.WriteLine(row.Field<string>(0));
 					SW1.Close();
-				}
-				
-				int ileWW = 0;
-				int ileZAS = 0;
-				foreach (DataRow row in uniqDocNames.Rows)
-				{
 					if (row.Field<string>(0).Contains("WW"))
 					{
 						ileWW++;
@@ -86,6 +82,7 @@ namespace ocr_wz.documents
 						ileZAS++;
 					}
 				}
+				
 				pdfName = fileNameTXT.Replace(".txt", ".pdf");
 				if (ileWW == ileZAS || ileWW > ileZAS)
 				{

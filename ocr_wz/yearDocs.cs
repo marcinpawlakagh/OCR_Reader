@@ -15,6 +15,7 @@ namespace ocr_wz
 	{
 		string documentsName;
 		public string year;
+		public string docNameN;
 		public yearDocs(string docName)
 		{
 			documentsName = docName;
@@ -40,6 +41,28 @@ namespace ocr_wz
 		{
 			year = documentsName.Replace("F_", "");
 			year = year.Remove(startIndex:2);
+		}
+		public void yearLP()
+		{
+			year = documentsName.Replace("LP_", "");
+			year = year.Remove(startIndex:2);
+			string counter = documentsName.Replace(year,"");
+			counter = counter.Replace("LP", "");
+			counter = counter.Replace("_", "");
+			int yearDoc = int.Parse(year);
+			DateTime thisTime = DateTime.Now;
+			year = (thisTime.ToString().Replace(" ", "_").Replace("-", "").Replace(":","")).Remove(4).Replace("20", "");
+			int yearAct = int.Parse(year);
+			if ((yearAct - yearDoc) > 1)
+			{
+				year = yearAct.ToString();
+				docNameN = "LP_" + year + "_" + counter;
+			}
+			else
+			{
+				year = yearDoc.ToString();
+				docNameN = documentsName;
+			}
 		}
 	}
 }

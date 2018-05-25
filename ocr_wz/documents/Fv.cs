@@ -61,18 +61,15 @@ namespace ocr_wz.documents
 				SW = File.AppendText(fileLogName);
 				SW.WriteLine("Tablica dokumentów:");
 				SW.Close();
+				int ileFV = 0;
+				int ileWZ = 0;
 				foreach (DataRow row in uniqDocNames.Rows)
 				{
 					StreamWriter SW2;
 					SW2 = File.AppendText(fileLogName);
 					SW2.WriteLine(row.Field<string>(0));
 					SW2.Close();
-				}
-				int ileFV = 0;
-				int ileWZ = 0;
-				foreach (DataRow row in uniqDocNames.Rows)
-				{
-					string docName = row.Field<string>(0).Replace("/", "_");
+					string docName = row.Field<string>(0);
 					if (docName.Contains("F_"))
 					{
 						ileFV++;
@@ -82,7 +79,6 @@ namespace ocr_wz.documents
 						ileWZ++;
 					}
 				}
-				
 				if (ileFV == ileWZ || ileWZ > ileFV)
 				{
 					foreach (DataRow row in uniqDocNames.Rows)

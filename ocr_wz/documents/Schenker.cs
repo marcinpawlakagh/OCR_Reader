@@ -23,71 +23,71 @@ namespace ocr_wz.documents
 		{
 			conf Config = new conf();
 			FileStream fs = new FileStream(fileNameTXT,
-			FileMode.Open, FileAccess.ReadWrite);
+			                               FileMode.Open, FileAccess.ReadWrite);
 			DataTable docNames = new DataTable();
 			docNames.Columns.Add("WZ", typeof(string));
 			
-				try
+			try
+			{
+				StreamReader sr = new StreamReader(fs);
+				DateTime thisTime = DateTime.Now;
+				string year = (thisTime.ToString().Replace(" ", "_").Replace("-", "").Replace(":","")).Remove(4).Replace("20", "");
+				string yearBack = Convert.ToString((Convert.ToInt32(year) - 1));
+				string yearNext = Convert.ToString((Convert.ToInt32(year) + 1));
+				string pdfPath = fileNameTXT.Replace(".txt", ".pdf");
+				DataTable documents2it = new DataTable();
+				documents2it.Columns.Add("WZ", typeof(string));
+				
+				while (!sr.EndOfStream)
 				{
-					StreamReader sr = new StreamReader(fs);
-					DateTime thisTime = DateTime.Now;
-					string year = (thisTime.ToString().Replace(" ", "_").Replace("-", "").Replace(":","")).Remove(4).Replace("20", "");
-					string yearBack = Convert.ToString((Convert.ToInt32(year) - 1));
-					string yearNext = Convert.ToString((Convert.ToInt32(year) + 1));
-					string pdfPath = fileNameTXT.Replace(".txt", ".pdf");
-					DataTable documents2it = new DataTable();
-					documents2it.Columns.Add("WZ", typeof(string));
-					
-					while (!sr.EndOfStream)
+					string text = sr.ReadLine().Replace(" ", "");
+					if (
+						text.Contains("wz/" + yearBack + "/")
+						|| text.Contains("wz/" + year + "/")
+						|| text.Contains("wz/" + yearNext + "/")
+						|| text.Contains("ww" + yearBack + "/")
+						|| text.Contains("ww" + year + "/")
+						|| text.Contains("ww" + yearNext + "/")
+						|| text.Contains("WZ/" + yearBack + "/")
+						|| text.Contains("WZ/" + year + "/")
+						|| text.Contains("WZ/" + yearNext + "/")
+						|| text.Contains("WW" + yearBack + "/")
+						|| text.Contains("WW" + year + "/")
+						|| text.Contains("WW" + yearNext + "/")
+					)
 					{
-						string text = sr.ReadLine().Replace(" ", "");
-							if (
-								text.Contains("wz/" + yearBack + "/")
-								|| text.Contains("wz/" + year + "/")
-								|| text.Contains("wz/" + yearNext + "/")
-								|| text.Contains("ww" + yearBack + "/")
-								|| text.Contains("ww" + year + "/")
-								|| text.Contains("ww" + yearNext + "/")
-								|| text.Contains("WZ/" + yearBack + "/")
-								|| text.Contains("WZ/" + year + "/")
-								|| text.Contains("WZ/" + yearNext + "/")
-								|| text.Contains("WW" + yearBack + "/")
-								|| text.Contains("WW" + year + "/")
-								|| text.Contains("WW" + yearNext + "/")
-								)
-							{ 
-									Regex regex = new Regex(@"Wyd"); //@"\D"
-									string result = regex.Replace(text, "");
-									result = Regex.Replace(result, "ww", "WW");
-									result = Regex.Replace(result, "wz", "WZ");
-									result = Regex.Replace(result, @"oduWZ", "");
-									result = Regex.Replace(result, "[a-z]" , "");
-									result = Regex.Replace(result, @"[~`!@#$%^&\*()_+B-EG-RT-Uęóąśłżźćń;:'\|<.>?""\]\.\-]", "");
-									result = Regex.Replace(result, "WZWZ", "WZ");
-									for (int i = 1; i < 20; i++)
-									{
-										result = Regex.Replace(result, @"[a-z0-9A-Z]WZ/", "WZ/");
-									}
-									
-									String[] documents;
-									documents = result.Split(',');
-									
-									foreach (var document in documents)
-									{
-										if (document.Length > 11)
-										{
-											string docName = document.Remove(11).Replace("/", "_");
-											documents2it.Rows.Add(docName);
-										}
-										else if (document.Length == 11)
-										{
-											string docName = document.Replace("/", "_");
-											documents2it.Rows.Add(docName);
-										}
-										
-									}
+						Regex regex = new Regex(@"Wyd"); //@"\D"
+						string result = regex.Replace(text, "");
+						result = Regex.Replace(result, "ww", "WW");
+						result = Regex.Replace(result, "wz", "WZ");
+						result = Regex.Replace(result, @"oduWZ", "");
+						result = Regex.Replace(result, "[a-z]" , "");
+						result = Regex.Replace(result, @"[~`!@#$%^&\*()_+B-EG-RT-Uęóąśłżźćń;:'\|<.>?""\]\.\-]", "");
+						result = Regex.Replace(result, "WZWZ", "WZ");
+						for (int i = 1; i < 20; i++)
+						{
+							result = Regex.Replace(result, @"[a-z0-9A-Z]WZ/", "WZ/");
+						}
+						
+						String[] documents;
+						documents = result.Split(',');
+						
+						foreach (var document in documents)
+						{
+							if (document.Length > 11)
+							{
+								string docName = document.Remove(11).Replace("/", "_");
+								documents2it.Rows.Add(docName);
 							}
+							else if (document.Length == 11)
+							{
+								string docName = document.Replace("/", "_");
+								documents2it.Rows.Add(docName);
+							}
+							
+						}
 					}
+				}
 				var UniqueRows = documents2it.AsEnumerable().Distinct(DataRowComparer.Default);
 				DataTable uniqDocNames = UniqueRows.CopyToDataTable();
 				StreamWriter SW;
@@ -145,15 +145,15 @@ namespace ocr_wz.documents
 						}
 					}
 				}
-						string przetworzone = pdfPath.Replace("po_ocr\\", "po_ocr\\przetworzone\\");
-						File.Move(pdfPath, przetworzone);
-					fs.Close();
-					File.Delete(fileNameTXT);
-				}
-				catch (Exception ex)
-				{
-					Console.WriteLine("Nie odnaleziono pliku txt!" + ex);
-				}
+				string przetworzone = pdfPath.Replace("po_ocr\\", "po_ocr\\przetworzone\\");
+				File.Move(pdfPath, przetworzone);
+				fs.Close();
+				File.Delete(fileNameTXT);
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine("Nie odnaleziono pliku txt!" + ex);
+			}
 		}
 	}
 }
