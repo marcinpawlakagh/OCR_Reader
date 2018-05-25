@@ -130,7 +130,7 @@ namespace ocr_wz
 				}
 			}
 		}
-		public void CopyFV()
+		public void CopyWZFV()
 		{
 			conf Config = new conf();
 			try
@@ -160,6 +160,40 @@ namespace ocr_wz
 					StreamWriter FV3;
 					FV3 = File.AppendText(fileLog);
 					FV3.WriteLine("!! Identyczny plik istnieje !!    " + Config.outPath +"Rok_20"+ year + "\\" + docName + "_FV.pdf" + "    !! Identyczny plik istnieje !!");
+					FV3.Close();
+				}
+			}
+		}
+		public void CopyFV()
+		{
+			conf Config = new conf();
+			try
+			{
+				File.Copy(pdfName, Config.outPath +"Rok_20"+ year + "\\FV\\" + docName + ".pdf" );
+				StreamWriter FV;
+				FV = File.AppendText(fileLog);
+				FV.WriteLine(Config.outPath +"Rok_20"+ year + "\\FV\\" + docName + ".pdf");
+				FV.Close();
+			}
+			catch (IOException)
+			{
+				FileInfo infoFirst = new FileInfo(Config.outPath +"Rok_20"+ year + "\\FV\\" + docName + ".pdf");
+				long byteFirst = infoFirst.Length;
+				FileInfo infoSecond = new FileInfo(pdfName);
+				long byteSecond = infoSecond.Length;
+				if (byteFirst != byteSecond)
+				{
+					File.Copy(pdfName, Config.outPath +"Rok_20"+ year + "\\duplikaty\\" + docName + ".pdf" );
+					StreamWriter FV2;
+					FV2 = File.AppendText(fileLog);
+					FV2.WriteLine("!! DUPLIKAT !!    " + Config.outPath +"Rok_20"+ year + "\\duplikaty\\" + docName + ".pdf" + "    !! DUPLIKAT !!");
+					FV2.Close();
+				}
+				else
+				{
+					StreamWriter FV3;
+					FV3 = File.AppendText(fileLog);
+					FV3.WriteLine("!! Identyczny plik istnieje !!    " + Config.outPath +"Rok_20"+ year + "\\FV\\" + docName + "_.pdf" + "    !! Identyczny plik istnieje !!");
 					FV3.Close();
 				}
 			}

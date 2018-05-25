@@ -24,118 +24,85 @@ namespace ocr_wz.documents
 		{
 			conf Config = new conf();
 			FileStream fs = new FileStream(fileNameTXT,
-			FileMode.Open, FileAccess.ReadWrite);
+			                               FileMode.Open, FileAccess.ReadWrite);
 			DataTable docNames = new DataTable();
 			docNames.Columns.Add("WZ", typeof(string));
 			
 			try
 			{
 				StreamReader sr = new StreamReader(fs);
-					while (!sr.EndOfStream)
+				while (!sr.EndOfStream)
+				{
+					string text = sr.ReadLine().Replace(" ", "");
+					if (
+						text.Contains("mówienie")
+						|| (text.Contains("za") && text.Contains("wie") && text.Contains("mer"))
+					)
 					{
-						string text = sr.ReadLine().Replace(" ", "");
-							if (
-								text.Contains("mówienie")
-								|| (text.Contains("za") && text.Contains("wie") && text.Contains("mer"))
-								)
-							{ 
-									Regex regex = new Regex(@"Wyd"); //@"\D"
-									string result = regex.Replace(text, "");
-									result = Regex.Replace(result, @"oduWZ", "");
-									result = Regex.Replace(result, "[a-z]" , "");
-									result = Regex.Replace(result, @"[~`!@#$%^&\*()_+B-EG-RT-Uęóąśłżźćń;:'\|,<.>?""\]\.\-]", "");
-									
-									result = Regex.Replace(result, "2AS", "ZAS");
-									result = Regex.Replace(result, "2A", "ZA");
-									result = Regex.Replace(result, "ZA[0-9A-Za-z]/", "ZAS/");
-										for (int i = 0; i < result.Length + 10; i++ )
-										{
-											result = Regex.Replace(result, @"[:punct:]ZAS/", "ZAS/");
-											result = Regex.Replace(result, @"[:alpha:]ZAS/", "ZAS/");
-											result = Regex.Replace(result, @"[:numeric:]ZAS/", "ZAS/");
-											result = Regex.Replace(result, @"[-|0-9A-Za-ząęółśżźćń\=„*+',;\._<>""()«%]ZAS/", "ZAS/");
-										}
-											if (result.Contains("ZAS"))
-											{
-												result = Regex.Replace(result, @"[a-z0-9A-Z]ZAS/", "ZAS/");
-												int ileZnakow = result.Count();
-													if (ileZnakow > 13)
-													{
-														result = result.Remove(13);
-														result = Regex.Replace(result, "/", "_");
-														docNames.Rows.Add(result);
-													}
-													else if(ileZnakow == 11)
-													{
-														result = Regex.Replace(result, "/", "_");
-														docNames.Rows.Add(result);
-													}
-											}
-									
-							}
+						if (text.Contains("ZAS"))
+						{
+							compilerDocName.Zas ZasName = new ocr_wz.compilerDocName.Zas(text);
+							counter.Zas licznikZas = new ocr_wz.counter.Zas(ZasName.resultZas);
+							docNames.Rows.Add(licznikZas.result0);
+						}
 					}
-					var UniqueRows = docNames.AsEnumerable().Distinct(DataRowComparer.Default);
-					DataTable uniqDocNames = UniqueRows.CopyToDataTable();
-					StreamWriter SW;
-					SW = File.AppendText(fileLogName);
-					SW.WriteLine("Tablica dokumentów:");
-					SW.Close();
-					foreach (DataRow row in uniqDocNames.Rows)
+				}
+				var UniqueRows = docNames.AsEnumerable().Distinct(DataRowComparer.Default);
+				DataTable uniqDocNames = UniqueRows.CopyToDataTable();
+				StreamWriter SW;
+				SW = File.AppendText(fileLogName);
+				SW.WriteLine("Tablica dokumentów:");
+				SW.Close();
+				foreach (DataRow row in uniqDocNames.Rows)
+				{
+					StreamWriter SW1;
+					SW1 = File.AppendText(fileLogName);
+					SW1.WriteLine(row.Field<string>(0));
+					SW1.Close();
+				}
+				
+				int ileZAS = 0;
+				foreach (DataRow row in uniqDocNames.Rows)
+				{
+					if (row.Field<string>(0).Contains("ZAS_"))
 					{
-						StreamWriter SW1;
-						SW1 = File.AppendText(fileLogName);
-						SW1.WriteLine(row.Field<string>(0));
-						SW1.Close();
+						ileZAS++;
 					}
-					
-					int ileZAS = 0;
+				}
+				pdfName = fileNameTXT.Replace(".txt", ".pdf");
+				if (ileZAS > 0)
+				{
 					foreach (DataRow row in uniqDocNames.Rows)
 					{
 						if (row.Field<string>(0).Contains("ZAS_"))
 						{
-							ileZAS++;
+							yearDocs readYear = new yearDocs(Convert.ToString(row.Field<string>(0)));
+							readYear.yearZas();
+							Copy CopyNewName = new Copy(pdfName, readYear.year, row.Field<string>(0), fileLogName);
+							CopyNewName.CopyZAS();
 						}
 					}
-					if (ileZAS > 0)
+					PdfOcrDone pdfDone = new PdfOcrDone(pdfName);
+				}
+				else
+				{
+					int tableElements = uniqDocNames.Rows.Count;
+					string tableRow = Convert.ToString(uniqDocNames.Rows[0]["WZ"]);
+					for (int i = 0; i < tableElements; i++)
 					{
-						DataTable endTable = new DataTable();
-						foreach (DataRow row in uniqDocNames.Rows)
-						{
-							if (row.Field<string>(0).Contains("ZAS_"))
-							{
-								pdfName = fileNameTXT.Replace(".txt", ".pdf");
-								string year = "0";
-								string docName = row.Field<string>(0);
-								Copy CopyNewName = new Copy(pdfName, year, docName, fileLogName);
-								CopyNewName.CopyZAS();
-							}
-						}
-						string przetworzone = pdfName.Replace("po_ocr\\", "po_ocr\\przetworzone\\");
-						File.Move(pdfName, przetworzone);
+						yearDocs readYear = new yearDocs(Convert.ToString(uniqDocNames.Rows[i]["WZ"]));
+						readYear.yearZas();
+						Copy CopyNewName = new Copy(pdfName, readYear.year, Convert.ToString(uniqDocNames.Rows[i]["WZ"]), fileLogName);
+						CopyNewName.CopyZAS();
 						
 					}
-					else
-					{
-						DataTable endTable = new DataTable();
-						int tableElements = uniqDocNames.Rows.Count;
-						string tableRow = Convert.ToString(uniqDocNames.Rows[0]["WZ"]);
-						for (int i = 0; i < tableElements; i++)
-						{
-								string year = Convert.ToString(uniqDocNames.Rows[i]["WZ"]).Remove(6);	
-								year = year.Replace("ZAS_", "");
-								string docName = pdfName.Replace("C:\\ARCHIWUM_WZ\\!skany\\!ocr\\po_ocr\\", "");
-								Copy CopyNewName = new Copy(pdfName, year, docName, fileLogName);
-								CopyNewName.CopyZAS();
-							
-						}
-						string przetworzone = pdfName.Replace("po_ocr\\", "po_ocr\\przetworzone\\");
-						File.Move(pdfName, przetworzone);
-					}
-					
-					fs.Close();
-					File.Delete(fileNameTXT);
+					PdfOcrDone pdfDone = new PdfOcrDone(pdfName);
+				}
+				
+				fs.Close();
+				File.Delete(fileNameTXT);
 			}
-			catch 
+			catch
 			{
 				fs.Close();
 				string year = "0";
@@ -143,8 +110,7 @@ namespace ocr_wz.documents
 				string docName = pdfName.Replace(Config.inPath + "\\!ocr\\po_ocr\\", "");
 				Copy CopyNewName = new Copy(pdfName, year, docName, fileLogName);
 				CopyNewName.CopyOther();
-				string przetworzone = pdfName.Replace("po_ocr\\", "po_ocr\\przetworzone\\");
-				File.Move(pdfName, przetworzone);
+				PdfOcrDone pdfDone = new PdfOcrDone(pdfName);
 				File.Delete(fileNameTXT);
 			}
 		}

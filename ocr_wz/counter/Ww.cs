@@ -1,7 +1,7 @@
 ﻿/*
  * Wykonał Marcin Pawlak
- * Data: 2018-05-24
- * Godzina: 13:05
+ * Data: 2018-05-25
+ * Godzina: 08:57
  * 
  */
 using System;
@@ -11,16 +11,16 @@ using System.Text.RegularExpressions;
 namespace ocr_wz.counter
 {
 	/// <summary>
-	/// Description of Wz.
+	/// Description of Ww.
 	/// </summary>
-	public class Wz
+	public class Ww
 	{
 		string sCounterWz;
 		public string result0;
-		public Wz(string result)
+		public Ww(string result)
 		{
 			Regex regex = new Regex(@"Wyd");
-			sCounterWz = Regex.Replace(result, @"WZ/[0-9][0-9]/", "");
+			sCounterWz = Regex.Replace(result, @"WW[0-9][0-9]/", "");
 			sCounterWz = Regex.Replace(sCounterWz, @"[AĄ]", "4");
 			sCounterWz = Regex.Replace(sCounterWz, @"[A-Za-z!-/:-~«„]", "");
 			
@@ -36,19 +36,19 @@ namespace ocr_wz.counter
 					{
 						int counter = int.Parse(sCounterWz);
 						int licznikWZCount = sCounterWz.Count();
-						
-						if (counter > 99999)
+						if (counter > 999999)
 						{
 							sCounterWz = Regex.Replace(sCounterWz, @"^1" , "");
-							result = result.Remove(startIndex:6) + sCounterWz;
+							result = result.Remove(startIndex:5) + sCounterWz;
 							result0 = Regex.Replace(result, "/", "_");
+							
 						}
 						else
 						{
-							sCounterWz = sCounterWz.Remove(5);
-							result = result.Remove(startIndex:6) + sCounterWz;
+							result = result.Remove(startIndex:5) + sCounterWz;
 							result0 = Regex.Replace(result, "/", "_");
 						}
+						
 					}
 					catch
 					{
@@ -60,16 +60,9 @@ namespace ocr_wz.counter
 					result = result.Remove(startIndex:6) + sCounterWz;
 					result0 = Regex.Replace(result, "/", "_");
 				}
-				
 			}
 			else if(result.Count() == 11)
 			{
-				string checksCounterWz = Regex.Replace(result, @"WZ/[0-9][0-9]/[0-9][0-9][0-9][0-9][0-9]", "true");
-				if (!checksCounterWz.Contains("true"))
-				{
-					sCounterWz = Regex.Replace(result, @"WZ/181", @"WZ/18/");
-					sCounterWz = Regex.Replace(result, @"WZ/191", @"WZ/19/");
-				}
 				result0 = Regex.Replace(result, "/", "_");
 			}
 			else

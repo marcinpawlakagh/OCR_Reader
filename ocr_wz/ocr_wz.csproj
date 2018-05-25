@@ -52,10 +52,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="compilerDocName\Fv.cs" />
+    <Compile Include="compilerDocName\Ww.cs" />
     <Compile Include="compilerDocName\Wz.cs" />
     <Compile Include="compilerDocName\Zas.cs" />
     <Compile Include="conf.cs" />
     <Compile Include="Copy.cs" />
+    <Compile Include="counter\Fv.cs" />
+    <Compile Include="counter\Ww.cs" />
     <Compile Include="counter\Wz.cs" />
     <Compile Include="counter\Zas.cs" />
     <Compile Include="documents\Fv.cs" />
@@ -75,6 +79,7 @@
     <Compile Include="extention\Png.cs" />
     <Compile Include="extention\Tif.cs" />
     <Compile Include="extention\Tiff.cs" />
+    <Compile Include="PdfOcrDone.cs" />
     <Compile Include="PdfToText.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

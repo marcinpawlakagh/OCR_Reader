@@ -13,8 +13,33 @@ namespace ocr_wz
 	/// </summary>
 	public class yearDocs
 	{
-		public yearDocs()
+		string documentsName;
+		public string year;
+		public yearDocs(string docName)
 		{
+			documentsName = docName;
+		}
+		
+		public void yearWZ()
+		{
+			year = documentsName.Replace("WZ_", "");
+			year = year.Remove(startIndex:2);
+			
+		}
+		public void yearZas()
+		{
+			year = documentsName.Replace("ZAS_", "");
+			year = year.Remove(startIndex:2);
+		}
+		public void yearWW()
+		{
+			year = documentsName.Replace("WW", "");
+			year = year.Remove(startIndex:2);
+		}
+		public void yearFV()
+		{
+			year = documentsName.Replace("F_", "");
+			year = year.Remove(startIndex:2);
 		}
 	}
 }

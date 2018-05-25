@@ -22,8 +22,9 @@ namespace ocr_wz.compilerDocName
 			result = Regex.Replace(result, @"oduWZ", "");
 			result = Regex.Replace(result, "WŻ/", "WZ/");
 			result = Regex.Replace(result, "wz", "WZ/");
-			string ile = result;
-			for (int i = 0; i < ile.Length + 10; i++ )
+			result = Regex.Replace(result, "WZJ/", "WZ/");
+			int ile = result.Length;
+			for (int i = 0; i < ile + 10; i++ )
 			{
 				result = Regex.Replace(result, @"[:punct:]WZ/", "WZ/");
 				result = Regex.Replace(result, @"[[]]WZ/", "WZ/");
