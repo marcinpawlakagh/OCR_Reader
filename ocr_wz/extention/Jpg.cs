@@ -71,4 +71,3 @@ namespace ocr_wz
 		}
 	}
 }
-
