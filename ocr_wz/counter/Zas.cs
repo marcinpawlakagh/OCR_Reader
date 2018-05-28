@@ -22,7 +22,11 @@ namespace ocr_wz.counter
 			{
 				result = result.Remove(startIndex:13);
 			}
-			result0 = Regex.Replace(result, "/", "_");
+			if (result.Contains("ZAS"))
+			{
+				result0 = Regex.Replace(result, "/", "_");
+			}
+			
 		}
 	}
 }

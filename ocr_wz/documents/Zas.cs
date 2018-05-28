@@ -43,7 +43,10 @@ namespace ocr_wz.documents
 						{
 							compilerDocName.Zas ZasName = new ocr_wz.compilerDocName.Zas(text);
 							counter.Zas licznikZas = new ocr_wz.counter.Zas(ZasName.resultZas);
-							docNames.Rows.Add(licznikZas.result0);
+							if (licznikZas.result0 != null)
+							{
+								docNames.Rows.Add(licznikZas.result0);
+							}
 						}
 					}
 				}

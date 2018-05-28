@@ -31,6 +31,7 @@ namespace ocr_wz.counter
 					if (sCounterWz.Length > 6)
 					{
 						sCounterWz = sCounterWz.Remove(6);
+						sCounterWz = Regex.Replace(sCounterWz, @"[A-Za-zĘęÓóĄąŚśŁłŻżŹźĆćŃń]", "");
 					}
 					try
 					{
@@ -45,7 +46,10 @@ namespace ocr_wz.counter
 						}
 						else
 						{
+							if (sCounterWz.Length > 5)
+							{
 							sCounterWz = sCounterWz.Remove(5);
+							}
 							result = result.Remove(startIndex:6) + sCounterWz;
 							result0 = Regex.Replace(result, "/", "_");
 						}

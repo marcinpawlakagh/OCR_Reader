@@ -14,3 +14,4 @@ C:\projekty_csharp\ocr_reader\ocr_wz\ocr_wz\bin\Debug\ocr_wz.exe
 C:\projekty_csharp\ocr_reader\ocr_wz\ocr_wz\bin\Debug\ocr_wz.pdb
 C:\projekty_csharp\ocr_reader\ocr_wz\ocr_wz\bin\Debug\Magick.NET-Q8-x86.dll
 C:\projekty_csharp\ocr_reader\ocr_wz\ocr_wz\bin\Debug\Magick.NET-Q8-x86.xml
+C:\projekty_csharp\ocr_reader\ocr_wz\ocr_wz\bin\Debug\Patagames.Ocr.xml

@@ -12,6 +12,9 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using Patagames.Ocr;
+using Patagames.Ocr.Enums;
+
 
 namespace ocr_wz
 {
@@ -19,53 +22,75 @@ namespace ocr_wz
 	{
 		public static void Main(string[] args)
 		{
-			Console.SetWindowSize(110, 30);
-			Console.WriteLine("Program do automatycznego przetwarzania skanów dokumentów wykonany przez Marcin Pawlak tel. 797-155-154");
-			ExistPath CheckIn = new ExistPath();
-//			ReadTxt reading = new ReadTxt("C:\\ARCHIWUM_WZ\\!skany\\!ocr\\po_ocr\\RW_1340945.txt", "C:\\ARCHIWUM_WZ\\!skany\\!ocr\\logi\\files_20180516_115210.txt");
-			conf Config = new conf();	// pobieram konfigurację katalogów wynikowych i źródłowych
-			DateTime thisTime = DateTime.Now;
-			string filesSurfix = thisTime.ToString().Replace(" ", "_").Replace("-", "").Replace(":","");
-			string fileLogName;
 			try
 			{
-				string [] extensions = new [] { ".jpg", ".png", ".tif", ".tiff", ".pdf", ".gif", ".bmp" }; //tworzę listę plików do przetworzenia
-				string [] files = Directory.GetFiles(Config.inPath, "*.*")
-					.Select(Path.GetFileName)
-					.Where(f => extensions.Contains(new FileInfo(f).Extension.ToLower())).ToArray();
-				fileLogName = Config.inPath + "\\!ocr\\logi\\files_" + filesSurfix + ".txt"; //Nazwa pliku txt z zawartością skanów (files_RRRRMMDD_HHMMSS.txt)
-				string pathLogName = fileLogName.Replace(".txt", "");
-				Directory.CreateDirectory(pathLogName);
-				foreach(string file in files)
-				{
-					File.WriteAllLines(fileLogName, files);
-				}
-				int lines = File.ReadAllLines(fileLogName).Length;
-				Console.WriteLine("Wyeksportowano listę z " + lines.ToString() + " plikami do " + Config.inPath + fileLogName);
-				string [] linesFileLog = File.ReadAllLines(fileLogName);
-				foreach (string fileName in linesFileLog)
-				{
-					string fileLogNameDone = pathLogName + "\\" + fileName + ".txt";// !!sprawdzić działanie!!
-					var t = new Task( () => {Scan Scan = new Scan(fileName, fileLogNameDone);});
-					t.Start();
-				}
-			}
-			catch (Exception)
+			
+			Console.SetWindowSize(110, 30);
+			string tessPath = System.IO.Directory.GetCurrentDirectory();
+			using (var api = OcrApi.Create())
 			{
-				File.WriteAllText(Config.inPath + "\\!ocr\\logi\\error_" + filesSurfix + ".txt", "Brak plików do przetworzenia!"); //zapisuje log z informacją, że nie było plików do przetworzenia
+				api.Init(Languages.Polish);
+				using (var renderer = OcrPdfRenderer.Create("C:/ARCHIWUM_WZ/!skany/D5113200", System.IO.Directory.GetCurrentDirectory() + "\\tessdata"))
+				{
+					renderer.BeginDocument("Tytuł");
+					api.ProcessPages(@"C:\ARCHIWUM_WZ\!skany\D5113200.tif", null, 0, renderer);
+					renderer.EndDocument();
+				}
+				Console.ReadKey();
 			}
-			foreach (var file in Directory.GetFiles(Path.GetTempPath(), "*.*"))
+			}
+			catch
 			{
-				try
-				{
-					File.Delete(file);
-				}
-				catch
-				{
-					
-				}
+				Console.ReadKey();
 			}
-			Console.ReadKey();
+//			Console.WriteLine("Program do automatycznego przetwarzania skanów dokumentów wykonany przez Marcin Pawlak tel. 797-155-154");
+//			ExistPath CheckIn = new ExistPath();
+//			ReadTxt reading = new ReadTxt("C:\\ARCHIWUM_WZ\\!skany\\!ocr\\po_ocr\\WZ_18_00625.txt", "C:\\ARCHIWUM_WZ\\!skany\\!ocr\\logi\\files_20180516_115210.txt");
+//			conf Config = new conf();	// pobieram konfigurację katalogów wynikowych i źródłowych
+//			DateTime thisTime = DateTime.Now;
+//			string filesSurfix = thisTime.ToString().Replace(" ", "_").Replace("-", "").Replace(":","");
+//			string fileLogName;
+//			try
+//			{
+//				string [] extensions = new [] { ".jpg", ".png", ".tif", ".tiff", ".pdf", ".gif", ".bmp" }; //tworzę listę plików do przetworzenia
+//				string [] files = Directory.GetFiles(Config.inPath, "*.*")
+//					.Select(Path.GetFileName)
+//					.Where(f => extensions.Contains(new FileInfo(f).Extension.ToLower())).ToArray();
+//				fileLogName = Config.inPath + "\\!ocr\\logi\\files_" + filesSurfix + ".txt"; //Nazwa pliku txt z zawartością skanów (files_RRRRMMDD_HHMMSS.txt)
+//				string pathLogName = fileLogName.Replace(".txt", "");
+//				Directory.CreateDirectory(pathLogName);
+//				foreach(string file in files)
+//				{
+//					File.WriteAllLines(fileLogName, files);
+//				}
+//				int lines = File.ReadAllLines(fileLogName).Length;
+//				Console.WriteLine("Wyeksportowano listę z " + lines.ToString() + " plikami do " + Config.inPath + fileLogName);
+//				string [] linesFileLog = File.ReadAllLines(fileLogName);
+//				foreach (string fileName in linesFileLog)
+//				{
+//					string fileLogNameDone = pathLogName + "\\" + fileName + ".txt";// !!sprawdzić działanie!!
+//					var t = new Task( () => {Scan Scan = new Scan(fileName, fileLogNameDone);});
+//					t.Start();
+//				}
+//			}
+//			catch (Exception)
+//			{
+//				File.WriteAllText(Config.inPath + "\\!ocr\\logi\\error_" + filesSurfix + ".txt", "Brak plików do przetworzenia!"); //zapisuje log z informacją, że nie było plików do przetworzenia
+//			}
+//			foreach (var file in Directory.GetFiles(Path.GetTempPath(), "*.*"))
+//			{
+//				try
+//				{
+//					File.Delete(file);
+//				}
+//				catch
+//				{
+//					
+//				}
+//			}
+//			Console.ReadKey();
+			
+			//dopisać warunek jeżeli w \po_ocr\ są pliki 0kb przenies oryginały do skany
 		}
 	}
 }

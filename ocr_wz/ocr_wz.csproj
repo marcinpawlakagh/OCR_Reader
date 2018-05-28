@@ -37,6 +37,9 @@
     <Reference Include="Magick.NET-Q8-x86">
       <HintPath>bin\Debug\lib\Magick.NET-Q8-x86.dll</HintPath>
     </Reference>
+    <Reference Include="Patagames.Ocr">
+      <HintPath>bin\Debug\Patagames.Ocr.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -94,12 +97,14 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+    <None Include="x64\tesseract.dll" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="extention" />
     <Folder Include="documents" />
     <Folder Include="compilerDocName" />
     <Folder Include="counter" />
+    <Folder Include="x64" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

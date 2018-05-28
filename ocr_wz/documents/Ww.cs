@@ -47,13 +47,19 @@ namespace ocr_wz.documents
 						{
 							compilerDocName.Ww WwName = new ocr_wz.compilerDocName.Ww(text);
 							counter.Ww licznikWw = new ocr_wz.counter.Ww(WwName.resultWW);
-							docNames.Rows.Add(licznikWw.result0);
+							if (licznikWw.result0 != null)
+							{
+								docNames.Rows.Add(licznikWw.result0);
+							}
 						}
 						else if(text.Contains("ZAS"))
 						{
 							compilerDocName.Zas ZasName = new ocr_wz.compilerDocName.Zas(text);
 							counter.Zas licznikZas = new ocr_wz.counter.Zas(ZasName.resultZas);
-							docNames.Rows.Add(licznikZas.result0);
+							if (licznikZas.result0 != null)
+							{
+								docNames.Rows.Add(licznikZas.result0);
+							}
 						}
 						
 					}

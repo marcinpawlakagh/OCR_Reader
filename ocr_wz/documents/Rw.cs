@@ -51,12 +51,18 @@ namespace ocr_wz.documents
 							if (document.Contains("LP_"))
 							{
 								RwName.LP(document);
-								docNames.Rows.Add(RwName.resultRW);
+								if (RwName.resultRW != null)
+								{
+									docNames.Rows.Add(RwName.resultRW);
+								}
 							}
 							else if (document.Contains("RW_"))
 							{
 								RwName.RW(document);
-								docNames.Rows.Add(RwName.resultRW);
+								if (RwName.resultRW != null)
+								{
+									docNames.Rows.Add(RwName.resultRW);
+								}
 							}
 						}
 					}

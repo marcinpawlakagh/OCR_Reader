@@ -50,19 +50,28 @@ namespace ocr_wz.documents
 						{
 							compilerDocName.Wz WzName2 = new ocr_wz.compilerDocName.Wz(text);
 							counter.Wz licznikWz = new ocr_wz.counter.Wz(WzName2.resultWZ);
-							docNames.Rows.Add(licznikWz.result0);
+							if (licznikWz.result0 != null)
+							{
+								docNames.Rows.Add(licznikWz.result0);
+							}
 						}
 						else if (WzName.resultWZ.Contains("WW"))
 						{
 							compilerDocName.Ww WwName = new ocr_wz.compilerDocName.Ww(text);
 							counter.Ww licznikWw = new ocr_wz.counter.Ww(WwName.resultWW);
-							docNames.Rows.Add(licznikWw.result0);
+							if (licznikWw.result0 != null)
+							{
+								docNames.Rows.Add(licznikWw.result0);
+							}
 						}
 						else if(WzName.resultWZ.Contains("ZAS"))
 						{
 							compilerDocName.Zas ZasName = new ocr_wz.compilerDocName.Zas(text);
 							counter.Zas licznikZas = new ocr_wz.counter.Zas(ZasName.resultZas);
-							docNames.Rows.Add(licznikZas.result0);
+							if (licznikZas.result0 != null)
+							{
+								docNames.Rows.Add(licznikZas.result0);
+							}
 						}
 					}
 				}

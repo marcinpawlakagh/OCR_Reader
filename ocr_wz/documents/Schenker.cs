@@ -64,13 +64,19 @@ namespace ocr_wz.documents
 							{
 								compilerDocName.Wz WzName = new ocr_wz.compilerDocName.Wz(row);
 								counter.Wz licznikWz = new ocr_wz.counter.Wz(WzName.resultWZ);
-								docNames.Rows.Add(licznikWz.result0);
+								if (licznikWz.result0 != null)
+								{
+									docNames.Rows.Add(licznikWz.result0);
+								}
 							}
 							else if (row.Contains("WW"))
 							{
 								compilerDocName.Ww WwName = new ocr_wz.compilerDocName.Ww(row);
 								counter.Ww licznikWw = new ocr_wz.counter.Ww(WwName.resultWW);
-								docNames.Rows.Add(licznikWw.result0);
+								if (licznikWw.result0 != null)
+								{
+									docNames.Rows.Add(licznikWw.result0);
+								}
 							}
 						}
 					}

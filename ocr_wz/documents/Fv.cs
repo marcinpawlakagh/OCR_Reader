@@ -44,13 +44,20 @@ namespace ocr_wz.documents
 						{
 							compilerDocName.Fv FvName = new ocr_wz.compilerDocName.Fv(text);
 							counter.Fv licznikFv = new ocr_wz.counter.Fv(FvName.resultFV);
-							docNames.Rows.Add(licznikFv.result0);
+							if (licznikFv.result0 != null)
+							{
+								docNames.Rows.Add(licznikFv.result0);
+							}
 						}
 						else if (text.Contains("Nu") && text.Contains("dow") && text.Contains("du"))
+						
 						{
 							compilerDocName.Wz WzName = new ocr_wz.compilerDocName.Wz(text);
 							counter.Wz licznikWz = new ocr_wz.counter.Wz(WzName.resultWZ);
-							docNames.Rows.Add(licznikWz.result0);
+							if (licznikWz.result0 != null)
+							{
+								docNames.Rows.Add(licznikWz.result0);
+							}
 						}
 						
 					}
@@ -113,7 +120,13 @@ namespace ocr_wz.documents
 			}
 			catch(Exception ex)
 			{
+				string docName = pdfName.Replace(Config.inPath + "\\!ocr\\po_ocr\\","");
+				Copy CopyNewName = new Copy(pdfName, "0", docName, fileLogName);
+				CopyNewName.CopyOther();
 				Console.WriteLine("Nie odnaleziono pliku txt!" + ex);
+				PdfOcrDone pdfDone = new PdfOcrDone(pdfName);
+				fs.Close();
+				File.Delete(fileNameTXT);
 			}
 		}
 	}

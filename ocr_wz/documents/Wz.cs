@@ -45,17 +45,23 @@ namespace ocr_wz.documents
 						|| text.Contains("WŻ/")
 					)
 					{
-						if (text.Contains("WZ") || text.Contains("WŻ/"))
+						if (text.Contains("WZ") || text.Contains("WŻ/") || text.Contains("wz"))
 						{
 							compilerDocName.Wz WzName = new ocr_wz.compilerDocName.Wz(text);
 							counter.Wz licznikWz = new ocr_wz.counter.Wz(WzName.resultWZ);
-							docNames.Rows.Add(licznikWz.result0);
+							if (licznikWz.result0 != null)
+							{
+								docNames.Rows.Add(licznikWz.result0);
+							}
 						}
 						else if(text.Contains("ZAS") || text.Contains("2AS") || text.Contains("ŻAS"))
 						{
 							compilerDocName.Zas ZasName = new ocr_wz.compilerDocName.Zas(text);
 							counter.Zas licznikZas = new ocr_wz.counter.Zas(ZasName.resultZas);
-							docNames.Rows.Add(licznikZas.result0);
+							if (licznikZas.result0 != null)
+							{
+								docNames.Rows.Add(licznikZas.result0);
+							}
 						}
 					}
 				}
