@@ -208,7 +208,7 @@ namespace ocr_wz
 				RW = File.AppendText(fileLog);
 				RW.WriteLine(Config.outPath +"Rok_20"+ year + "\\RW\\" + docName + ".pdf");
 				RW.Close();
-		}
+			}
 			catch (IOException)
 			{
 				FileInfo infoFirst = new FileInfo(Config.outPath +"Rok_20"+ year + "\\RW\\" + docName + ".pdf");
@@ -240,6 +240,74 @@ namespace ocr_wz
 			RW = File.AppendText(fileLog);
 			RW.WriteLine(Config.inPath +"\\!do_przetworzenia_recznego\\"+ docName);
 			RW.Close();
+		}
+		public void CopyWZdeliveryDoc()
+		{
+			conf Config = new conf();
+			try
+			{
+				File.Copy(pdfName, Config.outPath +"Rok_20"+ year + "\\" + docName + ".pdf" );
+				StreamWriter WZ;
+				WZ = File.AppendText(fileLog);
+				WZ.WriteLine(Config.outPath +"Rok_20"+ year + "\\" + docName + ".pdf");
+				WZ.Close();
+			}
+			catch (IOException)
+			{
+				FileInfo infoFirst = new FileInfo(Config.outPath +"Rok_20"+ year + "\\" + docName + ".pdf");
+				long byteFirst = infoFirst.Length;
+				FileInfo infoSecond = new FileInfo(pdfName);
+				long byteSecond = infoSecond.Length;
+				if (byteFirst != byteSecond)
+				{
+					File.Copy(pdfName, Config.outPath +"Rok_20"+ year + "\\duplikaty\\" + docName + ".pdf" );
+					StreamWriter WZ2;
+					WZ2 = File.AppendText(fileLog);
+					WZ2.WriteLine("!! DUPLIKAT !!    " + Config.outPath +"Rok_20"+ year + "\\do_polaczenia\\" + docName + ".pdf" + "    !! DUPLIKAT !!");
+					WZ2.Close();
+				}
+				else
+				{
+					StreamWriter WZ3;
+					WZ3 = File.AppendText(fileLog);
+					WZ3.WriteLine("!! Identyczny plik istnieje !!    " + Config.outPath +"Rok_20"+ year + "\\" + docName + ".pdf" + "    !! Identyczny plik istnieje !!");
+					WZ3.Close();
+				}
+			}
+		}
+		public void CopyWWdeliveryDoc()
+		{
+			conf Config = new conf();
+			try
+			{
+				File.Copy(pdfName, Config.outPath +"Rok_20"+ year + "\\WW\\" + docName + ".pdf" );
+				StreamWriter WW;
+				WW = File.AppendText(fileLog);
+				WW.WriteLine(Config.outPath +"Rok_20"+ year + "\\WW\\" + docName + ".pdf" );
+				WW.Close();
+			}
+			catch (IOException)
+			{
+				FileInfo infoFirst = new FileInfo(Config.outPath +"Rok_20"+ year + "\\WW\\" + docName + ".pdf");
+				long byteFirst = infoFirst.Length;
+				FileInfo infoSecond = new FileInfo(pdfName);
+				long byteSecond = infoSecond.Length;
+				if (byteFirst != byteSecond)
+				{
+					File.Copy(pdfName, Config.outPath +"Rok_20"+ year + "\\duplikaty\\" + docName + ".pdf" );
+					StreamWriter WW2;
+					WW2 = File.AppendText(fileLog);
+					WW2.WriteLine("!! DUPLIKAT !!    " + Config.outPath +"Rok_20"+ year + "\\do_polaczenia\\" + docName + ".pdf" + "    !! DUPLIKAT !!");
+					WW2.Close();
+				}
+				else
+				{
+					StreamWriter WW3;
+					WW3 = File.AppendText(fileLog);
+					WW3.WriteLine("!! Identyczny plik istnieje !!    " + Config.outPath +"Rok_20"+ year + "\\" + docName + ".pdf" + "    !! Identyczny plik istnieje !!");
+					WW3.Close();
+				}
+			}
 		}
 	}
 }

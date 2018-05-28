@@ -24,7 +24,7 @@ namespace ocr_wz.documents
 		{
 			conf Config = new conf();
 			FileStream fs = new FileStream(fileNameTXT,
-			FileMode.Open, FileAccess.ReadWrite);
+			                               FileMode.Open, FileAccess.ReadWrite);
 			DataTable docNames = new DataTable();
 			docNames.Columns.Add("WZ", typeof(string));
 			
@@ -35,139 +35,34 @@ namespace ocr_wz.documents
 				{
 					string text = sr.ReadLine().Replace(" ", "");
 					if (
-					text.Contains("mówienie")
-					|| (text.Contains("ze") && text.Contains("wn") && text.Contains("me"))
-					|| (text.Contains("trz") && text.Contains("num"))
-					|| text.Contains("ydanie")
-					|| text.Contains("numer:")
-					|| text.Contains("WW1")
-					|| text.Contains("WZ/")
+						text.Contains("mówienie")
+						|| (text.Contains("ze") && text.Contains("wn") && text.Contains("me"))
+						|| (text.Contains("trz") && text.Contains("num"))
+						|| text.Contains("ydanie")
+						|| text.Contains("numer:")
+						|| text.Contains("WW1")
+						|| text.Contains("WZ/")
 					)
 					{
-						Regex regex = new Regex(@"Wyd"); //@"\D"
-						string result = regex.Replace(text, "");
-						result = Regex.Replace(result, @"oduWZ", "");
-						result = Regex.Replace(result, "2AS", "ZAS");
-						result = Regex.Replace(result, "WŻ/", "WZ/");
-						result = Regex.Replace(result, "wz", "WZ/");
+						compilerDocName.Wz WzName = new ocr_wz.compilerDocName.Wz(text);
 						
-						if (result.Contains("WZ"))
+						if (WzName.resultWZ.Contains("WZ"))
 						{
-							string ile = result;
-							for (int i = 0; i < ile.Length + 10; i++ )
-							{
-								result = Regex.Replace(result, @"[:punct:]WZ/", "WZ/");
-								result = Regex.Replace(result, @"[[]]WZ/", "WZ/");
-								result = Regex.Replace(result, @"[.]WZ/", "WZ/");
-								result = Regex.Replace(result, @"[:numeric:]WZ/", "WZ/");
-								result = Regex.Replace(result, @"[-|0-9A-Za-ząęółśżźćń\=„*+',;\._<>""()«%]WZ/", "WZ/");
-							}
-							result = Regex.Replace(result, @"WZ/8/", "WZ/18/");
-							result = Regex.Replace(result, @"WZ/[i!l]8/", "WZ/18/");
-							result = Regex.Replace(result, @"[S]WZ/", "WZ/");
-							result = Regex.Replace(result, "WZWZ/", "WZ/");
-							int ileZnakow = result.Count();
-							string licznikWZ;
-							if (ileZnakow > 11)
-							{
-								licznikWZ = Regex.Replace(result, @"WZ/[0-9][0-9]/", "");
-								int licznikWZCount = licznikWZ.Count();
-								if (licznikWZCount > 6)
-								{
-									licznikWZ = licznikWZ.Remove(6);
-								}
-								int licznik = int.Parse(licznikWZ);
-								
-								if (licznik > 99999)
-								{
-									licznikWZ = Regex.Replace(licznikWZ, @"^1" , "");
-									result = result.Remove(startIndex:6) + licznikWZ;
-									result = Regex.Replace(result, "/", "_");
-									ileZnakow = result.Count();
-									docNames.Rows.Add(result);
-								}
-								else
-								{
-									licznikWZ = licznikWZ.Remove(5);
-									result = result.Remove(startIndex:6) + licznikWZ;
-									result = Regex.Replace(result, "/", "_");
-									ileZnakow = result.Count();
-									docNames.Rows.Add(result);
-								}
-								
-							}
-							else if(ileZnakow == 11)
-							{
-								result = Regex.Replace(result, "/", "_");
-								docNames.Rows.Add(result);
-							}
-							
+							compilerDocName.Wz WzName2 = new ocr_wz.compilerDocName.Wz(text);
+							counter.Wz licznikWz = new ocr_wz.counter.Wz(WzName2.resultWZ);
+							docNames.Rows.Add(licznikWz.result0);
 						}
-						else if (result.Contains("WW"))
+						else if (WzName.resultWZ.Contains("WW"))
 						{
-							for (int i = 0; i < result.Length + 10; i++ )
-							{
-								result = Regex.Replace(result, @"[:punct:]WW", "WW");
-								result = Regex.Replace(result, @"[[]]WW", "WW");
-								result = Regex.Replace(result, @"[.]WW", "WW");
-								result = Regex.Replace(result, @"[:numeric:]WW", "WW");
-								result = Regex.Replace(result, @"[-|0-9A-Za-ząęółśżźćń\=„*+',;\._<>""()«%]WW", "WW");
-							}
-							result = Regex.Replace(result, @"[S]WW", "WW");
-							result = Regex.Replace(result, "WWWW", "WW");
-							result = Regex.Replace(result, @"[a-z0-9A-Z]WW", "WW");
-							int ileZnakow = result.Count();
-							string licznikWW;
-							if (ileZnakow > 11)
-							{
-								licznikWW = Regex.Replace(result, @"WW[0-9][0-9]/", "");
-								int licznikWZCount = licznikWW.Count();
-								if (licznikWZCount > 6)
-								{
-									licznikWW = licznikWW.Remove(6);
-								}
-								int licznik = int.Parse(licznikWW);
-							
-								if (licznik > 999999)
-								{
-									licznikWW = Regex.Replace(licznikWW, @"^1" , "");
-									result = result.Remove(startIndex:6) + licznikWW;
-									result = Regex.Replace(result, "/", "_");
-									ileZnakow = result.Count();
-									docNames.Rows.Add(result);
-								}
-							
-								else
-								{
-									licznikWW = licznikWW.Remove(5);
-									result = result.Remove(startIndex:6) + licznikWW;
-									result = Regex.Replace(result, "/", "_");
-									ileZnakow = result.Count();
-									docNames.Rows.Add(result);
-								}
-							}
-							else if(ileZnakow == 11)
-							{
-								result = Regex.Replace(result, "/", "_");
-								docNames.Rows.Add(result);
-							}
+							compilerDocName.Ww WwName = new ocr_wz.compilerDocName.Ww(text);
+							counter.Ww licznikWw = new ocr_wz.counter.Ww(WwName.resultWW);
+							docNames.Rows.Add(licznikWw.result0);
 						}
-						else if(result.Contains("ZAS"))
+						else if(WzName.resultWZ.Contains("ZAS"))
 						{
-							for (int i = 0; i < result.Length + 10; i++ )
-							{
-								result = Regex.Replace(result, @"[:punct:]ZAS/", "ZAS/");
-								result = Regex.Replace(result, @"[:alpha:]ZAS/", "ZAS/");
-								result = Regex.Replace(result, @"[:numeric:]ZAS/", "ZAS/");
-								result = Regex.Replace(result, @"[-|0-9A-Za-ząęółśżźćń\=„*+',;\._]ZAS/", "ZAS/");
-							}
-							result = Regex.Replace(result, @"[S]ZAS/", "ZAS/");
-							result = Regex.Replace(result, "ZZAS/", "ZAS/");
-							result = Regex.Replace(result, @"[a-z0-9A-Z]ZAS/", "ZAS/");
-							result = result.Remove(startIndex:13);
-							result = Regex.Replace(result, "/", "_");
-							int ileZnakow = result.Count();
-							docNames.Rows.Add(result);
+							compilerDocName.Zas ZasName = new ocr_wz.compilerDocName.Zas(text);
+							counter.Zas licznikZas = new ocr_wz.counter.Zas(ZasName.resultZas);
+							docNames.Rows.Add(licznikZas.result0);
 						}
 					}
 				}
@@ -206,20 +101,16 @@ namespace ocr_wz.documents
 					{
 						if (row.Field<string>(0).Contains("WZ_"))
 						{
-							pdfName = fileNameTXT.Replace(".txt", ".pdf");
-							string year = row.Field<string>(0).Remove(5);
-							year = year.Replace("WZ_", "");
-							string docName = row.Field<string>(0);
-							Copy CopyNewName = new Copy(pdfName, year, docName, fileLogName);
+							yearDocs WZ = new yearDocs(row.Field<string>(0));
+							WZ.yearWZ();
+							Copy CopyNewName = new Copy(pdfName, WZ.year, row.Field<string>(0), fileLogName);
 							CopyNewName.CopyWZ();
 						}
 						else if (row.Field<string>(0).Contains("WW_"))
 						{
-							pdfName = fileNameTXT.Replace(".txt", ".pdf");
-							string year = row.Field<string>(0).Remove(4);
-							year = year.Replace("WW", "");
-							string docName = row.Field<string>(0);
-							Copy CopyNewName = new Copy(pdfName, year, docName, fileLogName);
+							yearDocs WW = new yearDocs(row.Field<string>(0));
+							WW.yearWW();
+							Copy CopyNewName = new Copy(pdfName, WW.year, row.Field<string>(0), fileLogName);
 							CopyNewName.CopyWW();
 						}
 					}
@@ -227,62 +118,56 @@ namespace ocr_wz.documents
 				else
 				{
 					int tableElements = uniqDocNames.Rows.Count;
-					string tableRow = Convert.ToString(uniqDocNames.Rows[0]["WZ"]);
 					for (int i = 0; i < tableElements; i++)
 					{
 						pdfName = fileNameTXT.Replace(".txt", ".pdf");
 						string docName = Convert.ToString(uniqDocNames.Rows[i]["WZ"]);
 						if (i == 0 && docName.Contains("WW"))
 						{
-							string year =  Convert.ToString(uniqDocNames.Rows[i]["WZ"]).Remove(4);
-							year = year.Replace("WW", "");
-							year = year.Replace("_", "");
-							Copy CopyNewName = new Copy(pdfName, year, docName, fileLogName);
+							yearDocs WW = new yearDocs(docName);
+							WW.yearWW();
+							Copy CopyNewName = new Copy(pdfName, WW.year, docName, fileLogName);
 							CopyNewName.CopyWW();
 						}
 						else if (i == 0 && docName.Contains("WZ"))
 						{
-							string year =  Convert.ToString(uniqDocNames.Rows[i]["WZ"]).Remove(5);
-							year = year.Replace("WZ_", "");
-							year = year.Replace("_", "");
-							Copy CopyNewName = new Copy(pdfName, year, docName, fileLogName);
-							CopyNewName.CopyWZ();
+							yearDocs WZ = new yearDocs(docName);
+							WZ.yearWZ();
+							Copy CopyNewName = new Copy(pdfName, WZ.year, docName, fileLogName);
+							CopyNewName.CopyWW();
 						}
 						else if (i == 0 && docName.Contains("ZAS_") && tableElements < 2)
 						{
-							string year =  Convert.ToString(uniqDocNames.Rows[i]["WZ"]).Remove(6);
-							year = year.Replace("ZAS_", "");
-							Copy CopyNewName = new Copy(pdfName, year, docName, fileLogName);
+							yearDocs readYear = new yearDocs(docName);
+							readYear.yearZas();
+							Copy CopyNewName = new Copy(pdfName, readYear.year, docName, fileLogName);
 							CopyNewName.CopyZAS();
 						}
 						else if(i > 0 && docName.Contains("ZAS_") && (Convert.ToString(uniqDocNames.Rows[i-1]["WZ"])).Contains("ZAS_"))
 						{
-							string year =  Convert.ToString(uniqDocNames.Rows[i]["WZ"]).Remove(6);
-							year = year.Replace("ZAS_", "");
-							Copy CopyNewName = new Copy(pdfName, year, docName, fileLogName);
+							yearDocs readYear = new yearDocs(docName);
+							readYear.yearZas();
+							Copy CopyNewName = new Copy(pdfName, readYear.year, docName, fileLogName);
 							CopyNewName.CopyZAS();
 						}
 						else if (i > 0 && docName.Contains("WZ"))
 						{
-							string year =  Convert.ToString(uniqDocNames.Rows[i]["WZ"]).Remove(5);
-							year = year.Replace("WZ_", "");
-							year = year.Replace("_", "");
-							Copy CopyNewName = new Copy(pdfName, year, docName, fileLogName);
-							CopyNewName.CopyWZ();
+							yearDocs WZ = new yearDocs(docName);
+							WZ.yearWZ();
+							Copy CopyNewName = new Copy(pdfName, WZ.year, docName, fileLogName);
+							CopyNewName.CopyWW();
 						}
 						else if (i > 0 && docName.Contains("WW"))
 						{
-							string year =  Convert.ToString(uniqDocNames.Rows[i]["WZ"]).Remove(4);
-							year = year.Replace("WW", "");
-							year = year.Replace("_", "");
-							Copy CopyNewName = new Copy(pdfName, year, docName, fileLogName);
+							yearDocs WW = new yearDocs(docName);
+							WW.yearWW();
+							Copy CopyNewName = new Copy(pdfName, WW.year, docName, fileLogName);
 							CopyNewName.CopyWW();
 						}
 					}
 				}
 				
-				string przetworzone = pdfName.Replace("po_ocr\\", "po_ocr\\przetworzone\\");
-				File.Move(pdfName, przetworzone);
+				PdfOcrDone pdfDone = new PdfOcrDone(pdfName);
 				fs.Close();
 				File.Delete(fileNameTXT);
 			}

@@ -93,14 +93,14 @@ namespace ocr_wz.documents
 						yearDocs WZ = new yearDocs(row.Field<string>(0));
 						WZ.yearWZ();
 						Copy CopyNewName = new Copy(pdfName, WZ.year, row.Field<string>(0), fileLogName);
-						CopyNewName.CopyWZ();
+						CopyNewName.CopyWZdeliveryDoc();
 					}
 					else if (row.Field<string>(0).Contains("WW"))
 					{
 						yearDocs WW = new yearDocs(row.Field<string>(0));
 						WW.yearWW();
 						Copy CopyNewName = new Copy(pdfName, WW.year, row.Field<string>(0), fileLogName);
-						CopyNewName.CopyWW();
+						CopyNewName.CopyWWdeliveryDoc();
 					}
 				}
 				PdfOcrDone pdfDone = new PdfOcrDone(pdfName);

@@ -20,6 +20,7 @@ namespace ocr_wz.compilerDocName
 			Regex regex = new Regex(@"Wyd"); //@"\D"
 			result = regex.Replace(result, "");
 			result = Regex.Replace(result, @"oduWZ", "");
+			result = Regex.Replace(result, "2AS", "ZAS");
 			result = Regex.Replace(result, "WŻ/", "WZ/");
 			result = Regex.Replace(result, "wz", "WZ/");
 			result = Regex.Replace(result, "WZJ/", "WZ/");

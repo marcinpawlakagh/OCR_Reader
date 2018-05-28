@@ -55,6 +55,7 @@
     <Compile Include="compilerDocName\Fv.cs" />
     <Compile Include="compilerDocName\Raben.cs" />
     <Compile Include="compilerDocName\Rw.cs" />
+    <Compile Include="compilerDocName\Schenker.cs" />
     <Compile Include="compilerDocName\Ww.cs" />
     <Compile Include="compilerDocName\Wz.cs" />
     <Compile Include="compilerDocName\Zas.cs" />

@@ -26,6 +26,7 @@ namespace ocr_wz.documents
 			                               FileMode.Open, FileAccess.ReadWrite);
 			DataTable docNames = new DataTable();
 			docNames.Columns.Add("WZ", typeof(string));
+			string pdfName = fileNameTXT.Replace(".txt", ".pdf");
 			
 			try
 			{
@@ -34,9 +35,7 @@ namespace ocr_wz.documents
 				string year = (thisTime.ToString().Replace(" ", "_").Replace("-", "").Replace(":","")).Remove(4).Replace("20", "");
 				string yearBack = Convert.ToString((Convert.ToInt32(year) - 1));
 				string yearNext = Convert.ToString((Convert.ToInt32(year) + 1));
-				string pdfPath = fileNameTXT.Replace(".txt", ".pdf");
-				DataTable documents2it = new DataTable();
-				documents2it.Columns.Add("WZ", typeof(string));
+				String[] documents;
 				
 				while (!sr.EndOfStream)
 				{
@@ -56,39 +55,28 @@ namespace ocr_wz.documents
 						|| text.Contains("WW" + yearNext + "/")
 					)
 					{
-						Regex regex = new Regex(@"Wyd"); //@"\D"
-						string result = regex.Replace(text, "");
-						result = Regex.Replace(result, "ww", "WW");
-						result = Regex.Replace(result, "wz", "WZ");
-						result = Regex.Replace(result, @"oduWZ", "");
-						result = Regex.Replace(result, "[a-z]" , "");
-						result = Regex.Replace(result, @"[~`!@#$%^&\*()_+B-EG-RT-Uęóąśłżźćń;:'\|<.>?""\]\.\-]", "");
-						result = Regex.Replace(result, "WZWZ", "WZ");
-						for (int i = 1; i < 20; i++)
-						{
-							result = Regex.Replace(result, @"[a-z0-9A-Z]WZ/", "WZ/");
-						}
+						compilerDocName.Schenker SchenkerName = new ocr_wz.compilerDocName.Schenker(text);
+						documents = SchenkerName.resultSchenker.Split(',');
 						
-						String[] documents;
-						documents = result.Split(',');
-						
-						foreach (var document in documents)
+						foreach (string row in documents)
 						{
-							if (document.Length > 11)
+							if (row.Contains("WZ/"))
 							{
-								string docName = document.Remove(11).Replace("/", "_");
-								documents2it.Rows.Add(docName);
+								compilerDocName.Wz WzName = new ocr_wz.compilerDocName.Wz(row);
+								counter.Wz licznikWz = new ocr_wz.counter.Wz(WzName.resultWZ);
+								docNames.Rows.Add(licznikWz.result0);
 							}
-							else if (document.Length == 11)
+							else if (row.Contains("WW"))
 							{
-								string docName = document.Replace("/", "_");
-								documents2it.Rows.Add(docName);
+								compilerDocName.Ww WwName = new ocr_wz.compilerDocName.Ww(row);
+								counter.Ww licznikWw = new ocr_wz.counter.Ww(WwName.resultWW);
+								docNames.Rows.Add(licznikWw.result0);
 							}
-							
 						}
 					}
 				}
-				var UniqueRows = documents2it.AsEnumerable().Distinct(DataRowComparer.Default);
+				
+				var UniqueRows = docNames.AsEnumerable().Distinct(DataRowComparer.Default);
 				DataTable uniqDocNames = UniqueRows.CopyToDataTable();
 				StreamWriter SW;
 				SW = File.AppendText(fileLogName);
@@ -100,53 +88,22 @@ namespace ocr_wz.documents
 					SW1 = File.AppendText(fileLogName);
 					SW1.WriteLine(row.Field<string>(0));
 					SW1.Close();
-				}
-				foreach (DataRow row in uniqDocNames.Rows)
-				{
-					string docName = row.Field<string>(0);
-					if (docName.Contains("WZ_"))
+					if (row.Field<string>(0).Contains("WZ_"))
 					{
-						string yearDoc = docName.Remove(startIndex:5).Replace("WZ_", "");
-						if (File.Exists(Config.outPath + "Rok_20" + yearDoc + "\\" + docName +".pdf"))
-						{
-							File.Copy(pdfPath, Config.outPath + "Rok_20" + yearDoc + "\\do_polaczenia\\" + docName +".pdf");
-							StreamWriter SW2;
-							SW2 = File.AppendText(fileLogName);
-							SW2.WriteLine(Config.outPath + "Rok_20" + yearDoc + "\\do_polaczenia\\" + docName +".pdf");
-							SW2.Close();
-						}
-						else
-						{
-							File.Copy(pdfPath, Config.outPath + "Rok_20" + yearDoc + "\\" + docName +".pdf");
-							StreamWriter SW3;
-							SW3 = File.AppendText(fileLogName);
-							SW3.WriteLine(Config.outPath + "Rok_20" + yearDoc + "\\" + docName +".pdf");
-							SW3.Close();
-						}
+						yearDocs WZ = new yearDocs(row.Field<string>(0));
+						WZ.yearWZ();
+						Copy CopyNewName = new Copy(pdfName, WZ.year, row.Field<string>(0), fileLogName);
+						CopyNewName.CopyWZdeliveryDoc();
 					}
-					else if (docName.Contains("WW"))
+					else if (row.Field<string>(0).Contains("WW"))
 					{
-						string yearDoc = docName.Remove(startIndex:4).Replace("WW", "");
-						if (File.Exists(Config.outPath + "Rok_20" + yearDoc + "\\WW\\" + docName +".pdf"))
-						{
-							File.Copy(pdfPath, Config.outPath + "Rok_20" + yearDoc + "\\do_polaczenia\\" + docName +".pdf");
-							StreamWriter SW4;
-							SW4 = File.AppendText(fileLogName);
-							SW4.WriteLine(Config.outPath + "Rok_20" + yearDoc + "\\" + docName +".pdf");
-							SW4.Close();
-						}
-						else
-						{
-							File.Copy(pdfPath, Config.outPath + "Rok_20" + yearDoc + "\\WW\\" + docName +".pdf");
-							StreamWriter SW5;
-							SW5 = File.AppendText(fileLogName);
-							SW5.WriteLine(Config.outPath + "Rok_20" + yearDoc + "\\WW\\" + docName +".pdf");
-							SW5.Close();
-						}
+						yearDocs WW = new yearDocs(row.Field<string>(0));
+						WW.yearWW();
+						Copy CopyNewName = new Copy(pdfName, WW.year, row.Field<string>(0), fileLogName);
+						CopyNewName.CopyWWdeliveryDoc();
 					}
 				}
-				string przetworzone = pdfPath.Replace("po_ocr\\", "po_ocr\\przetworzone\\");
-				File.Move(pdfPath, przetworzone);
+				PdfOcrDone pdfDone = new PdfOcrDone(pdfName);
 				fs.Close();
 				File.Delete(fileNameTXT);
 			}
