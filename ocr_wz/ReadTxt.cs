@@ -37,7 +37,9 @@ namespace ocr_wz
 					int schenker = 0;
 					while (!sr.EndOfStream)
 					{
-						string text = sr.ReadLine().Replace(" ", "");
+						string text1 = sr.ReadLine().Replace(" ", "");
+						compilerDocName.All allCompiler = new ocr_wz.compilerDocName.All(text1);
+						string text = allCompiler.resultText;
 						if(text.Contains("FAKTURA"))
 						{
 							fv++;
