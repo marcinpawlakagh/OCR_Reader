@@ -33,7 +33,9 @@ namespace ocr_wz.documents
 				
 				while (!sr.EndOfStream)
 				{
-					string text = sr.ReadLine().Replace(" ", "");
+					string text1 = sr.ReadLine().Replace(" ", "");
+					compilerDocName.All allCompiler = new ocr_wz.compilerDocName.All(text1);
+					string text = allCompiler.resultText;
 					if (
 						text.Contains("mówienie")
 						|| (text.Contains("ze") && text.Contains("wn") && text.Contains("me"))

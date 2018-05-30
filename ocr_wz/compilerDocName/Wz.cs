@@ -20,12 +20,6 @@ namespace ocr_wz.compilerDocName
 			Regex regex = new Regex(@"Wyd"); //@"\D"
 			result = regex.Replace(result, "");
 			result = Regex.Replace(result, @"oduWZ", "");
-			result = Regex.Replace(result, "2AS", "ZAS");
-			result = Regex.Replace(result, "WŻ/", "WZ/");
-			result = Regex.Replace(result, "wz/", "WZ/");
-			result = Regex.Replace(result, "WZJ/", "WZ/");
-			result = Regex.Replace(result, "WZ4", "WZ/");
-			result = Regex.Replace(result, "W2/", "WZ/");
 			int ile = result.Length;
 			for (int i = 0; i < ile + 10; i++ )
 			{
@@ -33,7 +27,7 @@ namespace ocr_wz.compilerDocName
 				result = Regex.Replace(result, @"[[]]WZ/", "WZ/");
 				result = Regex.Replace(result, @"[.]WZ/", "WZ/");
 				result = Regex.Replace(result, @"[:numeric:]WZ/", "WZ/");
-				result = Regex.Replace(result, @"[-|0-9A-Za-ząĄęĘóÓłŁśŚżŻźŹćĆńŃ\=„*+',;\._<>""()«%]WZ/", "WZ/");
+				result = Regex.Replace(result, @"[-|0-9A-Za-ząĄęĘóÓłŁśŚżŻźŹćĆńŃ\=„*+',;\._<>""()«%/]WZ/", "WZ/");
 				result = result.Replace("[","");
 				result = result.Replace("]","");
 			}

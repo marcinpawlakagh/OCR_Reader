@@ -39,15 +39,11 @@ namespace ocr_wz.documents
 				
 				while (!sr.EndOfStream)
 				{
-					string text = sr.ReadLine().Replace(" ", "");
+					string text1 = sr.ReadLine().Replace(" ", "");
+					compilerDocName.All allCompiler = new ocr_wz.compilerDocName.All(text1);
+					string text = allCompiler.resultText;
 					if (
-						text.Contains("wz/" + yearBack + "/")
-						|| text.Contains("wz/" + year + "/")
-						|| text.Contains("wz/" + yearNext + "/")
-						|| text.Contains("ww" + yearBack + "/")
-						|| text.Contains("ww" + year + "/")
-						|| text.Contains("ww" + yearNext + "/")
-						|| text.Contains("WZ/" + yearBack + "/")
+						text.Contains("WZ/" + yearBack + "/")
 						|| text.Contains("WZ/" + year + "/")
 						|| text.Contains("WZ/" + yearNext + "/")
 						|| text.Contains("WW" + yearBack + "/")

@@ -37,7 +37,9 @@ namespace ocr_wz.documents
 				StreamReader sr = new StreamReader(fs);
 				while (!sr.EndOfStream)
 				{
-					string text = sr.ReadLine().Replace(" ", "");
+					string text1 = sr.ReadLine().Replace(" ", "");
+					compilerDocName.All allCompiler = new ocr_wz.compilerDocName.All(text1);
+					string text = allCompiler.resultText;
 					if (
 						text.Contains("mówienie")
 						|| (text.Contains("ze") && text.Contains("wn") && text.Contains("me"))
@@ -46,12 +48,6 @@ namespace ocr_wz.documents
 						|| text.Contains("numer:")
 						|| text.Contains("WW1")
 						|| text.Contains("WZ/")
-						|| text.Contains("wz/" + yearBack + "/")
-						|| text.Contains("wz/" + year + "/")
-						|| text.Contains("wz/" + yearNext + "/")
-						|| text.Contains("ww" + yearBack + "/")
-						|| text.Contains("ww" + year + "/")
-						|| text.Contains("ww" + yearNext + "/")
 						|| text.Contains("WZ/" + yearBack + "/")
 						|| text.Contains("WZ/" + year + "/")
 						|| text.Contains("WZ/" + yearNext + "/")

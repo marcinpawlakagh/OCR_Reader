@@ -32,7 +32,9 @@ namespace ocr_wz.documents
 				StreamReader sr = new StreamReader(fs);
 				while (!sr.EndOfStream)
 				{
-					string text = sr.ReadLine().Replace(" ", "");
+					string text1 = sr.ReadLine().Replace(" ", "");
+					compilerDocName.All allCompiler = new ocr_wz.compilerDocName.All(text1);
+					string text = allCompiler.resultText;
 					if (
 						text.Contains("mówienie")
 						|| (text.Contains("am") && text.Contains("wi") && text.Contains("nie") && text.Contains("AS"))
@@ -42,10 +44,9 @@ namespace ocr_wz.documents
 						|| text.Contains("ydanie")
 						|| text.Contains("numer:")
 						|| text.Contains("WZ/")
-						|| text.Contains("WŻ/")
 					)
 					{
-						if (text.Contains("WZ") || text.Contains("WŻ/") || text.Contains("wz") || text.Contains("W2/"))
+						if (text.Contains("WZ"))
 						{
 							compilerDocName.Wz WzName = new ocr_wz.compilerDocName.Wz(text);
 							counter.Wz licznikWz = new ocr_wz.counter.Wz(WzName.resultWZ);
@@ -54,7 +55,7 @@ namespace ocr_wz.documents
 								docNames.Rows.Add(licznikWz.result0);
 							}
 						}
-						else if(text.Contains("ZAS") || text.Contains("2AS") || text.Contains("ŻAS"))
+						else if(text.Contains("ZAS"))
 						{
 							compilerDocName.Zas ZasName = new ocr_wz.compilerDocName.Zas(text);
 							counter.Zas licznikZas = new ocr_wz.counter.Zas(ZasName.resultZas);

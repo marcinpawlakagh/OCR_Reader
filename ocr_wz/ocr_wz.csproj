@@ -67,6 +67,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="compilerDocName\All.cs" />
     <Compile Include="compilerDocName\Fv.cs" />
     <Compile Include="compilerDocName\Raben.cs" />
     <Compile Include="compilerDocName\Rw.cs" />
