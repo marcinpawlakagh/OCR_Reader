@@ -45,7 +45,7 @@ namespace ocr_wz.documents
 						|| text.Contains("WŻ/")
 					)
 					{
-						if (text.Contains("WZ") || text.Contains("WŻ/") || text.Contains("wz"))
+						if (text.Contains("WZ") || text.Contains("WŻ/") || text.Contains("wz") || text.Contains("W2/"))
 						{
 							compilerDocName.Wz WzName = new ocr_wz.compilerDocName.Wz(text);
 							counter.Wz licznikWz = new ocr_wz.counter.Wz(WzName.resultWZ);

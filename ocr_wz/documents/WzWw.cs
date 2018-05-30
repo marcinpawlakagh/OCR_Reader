@@ -184,8 +184,6 @@ namespace ocr_wz.documents
 			{
 				Console.WriteLine("Nie odnaleziono pliku txt!" + ex);
 			}
-			
-			Console.ReadKey();
 		}
 	}
 }
