@@ -32,7 +32,7 @@ namespace ocr_wz.counter
 				{
 					for (int i = 0; i < 6; i++)
 					{
-						sCounterWz = Regex.Replace(sCounterWz, @"[A-Za-zĘęÓóĄąŚśŁłŻżŹźĆćŃń”]", "");
+                        sCounterWz = Regex.Replace(sCounterWz, @"[A-Za-zĘęÓóĄąŚśŁłŻżŹźĆćŃń”—„|]", "");
 					}
 					if (sCounterWz.Length > 6)
 					{
@@ -76,9 +76,19 @@ namespace ocr_wz.counter
                 result = result.Remove(6);
                 result = Regex.Replace(result, @"WZ/181", @"WZ/18/");
                 result = Regex.Replace(result, @"WZ/191", @"WZ/19/");
-                result = result + sCounterWz;
+                if (sCounterWz.Length == 5)
+                {
+                    try
+                    {
+                        int intsCounter = Int32.Parse(sCounterWz);
+                        result = result + sCounterWz;
+                        result0 = Regex.Replace(result, "/", "_");
+                    }
+                    catch
+                    {
 
-				result0 = Regex.Replace(result, "/", "_");
+                    }  
+                }
 			}
 			else
 			{

@@ -44,7 +44,7 @@ namespace ocr_wz
 						{
 							fv++;
 						}
-						else if ((text.Contains("yda") && text.Contains("mer") && (text.Contains("WZ") || text.Contains("WŻ") || text.Contains("wz") || text.Contains("W2/"))) || (text.Contains("WZ/")))
+                        else if (((text.Contains("yda") || text.Contains("ani")) && text.Contains("mer") && (text.Contains("WZ") || text.Contains("WŻ") || text.Contains("wz") || text.Contains("Wz") || text.Contains("W2/"))) || (text.Contains("WZ/")))
 						{
 							wz++;
 						}

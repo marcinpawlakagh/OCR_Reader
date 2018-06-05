@@ -26,6 +26,7 @@ namespace ocr_wz.compilerDocName
 			result = Regex.Replace(result, "ŻAS", "ZAS");
 			result = Regex.Replace(result, "2A", "ZA");
 			result = Regex.Replace(result, "ZA[0-9A-Za-z]/", "ZAS/");
+            result = Regex.Replace(result, "ZAS[0-9A-Za-z]/", "ZAS/");
 			for (int i = 0; i < result.Length + 10; i++ )
 			{
 				result = Regex.Replace(result, @"[:punct:]ZAS/", "ZAS/");
