@@ -21,8 +21,10 @@ namespace ocr_wz.counter
 		{
 			Regex regex = new Regex(@"Wyd");
 			sCounterWz = Regex.Replace(result, @"WZ/[0-9][0-9]/", "");
+            sCounterWz = Regex.Replace(sCounterWz, @"/", "7");
 			sCounterWz = Regex.Replace(sCounterWz, @"[AĄ]", "4");
 			sCounterWz = Regex.Replace(sCounterWz, @"[A-Za-z!-/:-~«„]", "");
+            
 			
 			if (result.Count() > 11)
 			{
@@ -62,21 +64,20 @@ namespace ocr_wz.counter
 						
 					}
 				}
-				else
-				{
-					result = result.Remove(startIndex:6) + sCounterWz;
-					result0 = Regex.Replace(result, "/", "_");
-				}
+                else if (sCounterWz.Length == 5)
+                {
+                    result = result.Remove(startIndex:6) + sCounterWz;
+                    result0 = Regex.Replace(result, "/", "_");
+                }
 				
 			}
 			else if(result.Count() == 11)
 			{
-				string checksCounterWz = Regex.Replace(result, @"WZ/[0-9][0-9]/[0-9][0-9][0-9][0-9][0-9]", "true");
-				if (!checksCounterWz.Contains("true"))
-				{
-					sCounterWz = Regex.Replace(result, @"WZ/181", @"WZ/18/");
-					sCounterWz = Regex.Replace(result, @"WZ/191", @"WZ/19/");
-				}
+                result = result.Remove(6);
+                result = Regex.Replace(result, @"WZ/181", @"WZ/18/");
+                result = Regex.Replace(result, @"WZ/191", @"WZ/19/");
+                result = result + sCounterWz;
+
 				result0 = Regex.Replace(result, "/", "_");
 			}
 			else
