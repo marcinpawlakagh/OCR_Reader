@@ -44,7 +44,7 @@ namespace ocr_wz
 						{
 							fv++;
 						}
-                        else if (((text.Contains("yda") || text.Contains("ani")) && text.Contains("mer") && (text.Contains("WZ") || text.Contains("WŻ") || text.Contains("wz") || text.Contains("Wz") || text.Contains("W2/"))) || (text.Contains("WZ/")))
+                        else if (((text.Contains("yda") || text.Contains("ani")) && text.Contains("mer")) && (text.Contains("WZ") || text.Contains("WŻ") || text.Contains("wz") || text.Contains("Wz") || text.Contains("W2/") || text.Contains("WZ/")))
 						{
 							wz++;
 						}
@@ -60,7 +60,7 @@ namespace ocr_wz
 						{
 							raben++;
 						}
-						else if (text.Contains("oku") && text.Contains("nt") && text.Contains("WZ"))
+                        else if ((text.Contains("oku") && text.Contains("nt") && text.Contains("WZ")) || text.Contains("SCHENKER"))
 						{
 							schenker++;
 						}
@@ -71,7 +71,6 @@ namespace ocr_wz
 					{
 						if (ww > 0)
 						{
-							Console.WriteLine("Tutaj znajdują się WZ i WW");
 							StreamWriter SW;
 							SW = File.AppendText(fileLogName);
 							SW.WriteLine("W pliku znajdują się dokumenty WZ i dokument WW");

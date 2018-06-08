@@ -23,6 +23,7 @@ namespace ocr_wz.counter
 			sCounterWz = Regex.Replace(result, @"WW[0-9][0-9]/", "");
 			sCounterWz = Regex.Replace(sCounterWz, @"[AĄ]", "4");
 			sCounterWz = Regex.Replace(sCounterWz, @"[A-Za-z!-/:-~«„]", "");
+            var checkVar = @"^[W][W][0-9][0-9]/[0-9][0-9][0-9][0-9][0-9][0-9]";
 			
 			if (result.Count() > 11)
 			{
@@ -40,13 +41,21 @@ namespace ocr_wz.counter
 						{
 							sCounterWz = Regex.Replace(sCounterWz, @"^1" , "");
 							result = result.Remove(startIndex:5) + sCounterWz;
-							result0 = Regex.Replace(result, "/", "_");
+                            var checkIn = Regex.Match(result, checkVar, RegexOptions.IgnoreCase);
+                            if (checkIn.Success)
+                            {
+                                result0 = Regex.Replace(result, "/", "_");
+                            }
 							
 						}
 						else
 						{
 							result = result.Remove(startIndex:5) + sCounterWz;
-							result0 = Regex.Replace(result, "/", "_");
+                            var checkIn = Regex.Match(result, checkVar, RegexOptions.IgnoreCase);
+                            if (checkIn.Success)
+                            {
+                                result0 = Regex.Replace(result, "/", "_");
+                            }
 						}
 						
 					}
@@ -58,12 +67,20 @@ namespace ocr_wz.counter
 				else
 				{
 					result = result.Remove(startIndex:6) + sCounterWz;
-					result0 = Regex.Replace(result, "/", "_");
+                    var checkIn = Regex.Match(result, checkVar, RegexOptions.IgnoreCase);
+                    if (checkIn.Success)
+                    {
+                        result0 = Regex.Replace(result, "/", "_");
+                    }
 				}
 			}
 			else if(result.Count() == 11)
 			{
-				result0 = Regex.Replace(result, "/", "_");
+                var checkIn = Regex.Match(result, checkVar, RegexOptions.IgnoreCase);
+                if (checkIn.Success)
+                {
+                    result0 = Regex.Replace(result, "/", "_");
+                }
 			}
 			else
 			{

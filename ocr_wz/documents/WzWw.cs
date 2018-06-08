@@ -93,7 +93,7 @@ namespace ocr_wz.documents
 					{
 						ileWZ++;
 					}
-					else if (row.Field<string>(0).Contains("WW_"))
+					else if (row.Field<string>(0).Contains("WW"))
 					{
 						ileWW++;
 					}
@@ -106,6 +106,7 @@ namespace ocr_wz.documents
 					SW1.WriteLine(row.Field<string>(0));
 					SW1.Close();
 				}
+                pdfName = fileNameTXT.Replace(".txt", ".pdf");
 				if (ileWZ + ileWW == ileZAS || ileWZ + ileWW > ileZAS)
 				{
 					foreach (DataRow row in uniqDocNames.Rows)
@@ -117,7 +118,7 @@ namespace ocr_wz.documents
 							Copy CopyNewName = new Copy(pdfName, WZ.year, row.Field<string>(0), fileLogName);
 							CopyNewName.CopyWZ();
 						}
-						else if (row.Field<string>(0).Contains("WW_"))
+						else if (row.Field<string>(0).Contains("WW"))
 						{
 							yearDocs WW = new yearDocs(row.Field<string>(0));
 							WW.yearWW();
@@ -131,7 +132,7 @@ namespace ocr_wz.documents
 					int tableElements = uniqDocNames.Rows.Count;
 					for (int i = 0; i < tableElements; i++)
 					{
-						pdfName = fileNameTXT.Replace(".txt", ".pdf");
+						
 						string docName = Convert.ToString(uniqDocNames.Rows[i]["WZ"]);
 						if (i == 0 && docName.Contains("WW"))
 						{

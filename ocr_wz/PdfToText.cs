@@ -22,7 +22,7 @@ namespace ocr_wz
 						pdf2txt.UseShellExecute = false;
 						pdf2txt.FileName = "cmd.exe";
 						pdf2txt.Arguments =
-								"/c pdftotext.exe " + "-table -enc UTF-8 " +
+								"/c pdftotext.exe " + " -enc UTF-8 " + // -table
 								"\"" + fileNamePDF;
 						// Start tesseract.
 						Process process = Process.Start(pdf2txt);

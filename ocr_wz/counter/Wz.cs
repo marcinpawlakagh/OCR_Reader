@@ -24,6 +24,7 @@ namespace ocr_wz.counter
             sCounterWz = Regex.Replace(sCounterWz, @"/", "7");
 			sCounterWz = Regex.Replace(sCounterWz, @"[AĄ]", "4");
 			sCounterWz = Regex.Replace(sCounterWz, @"[A-Za-z!-/:-~«„]", "");
+            var checkVar = @"^[W-Z][W-Z]/[0-9][0-9]/[0-9][0-9][0-9][0-9][0-9]";
             
 			
 			if (result.Count() > 11)
@@ -47,7 +48,11 @@ namespace ocr_wz.counter
 						{
 							sCounterWz = Regex.Replace(sCounterWz, @"^1" , "");
 							result = result.Remove(startIndex:6) + sCounterWz;
-							result0 = Regex.Replace(result, "/", "_");
+                            var checkIn = Regex.Match(result, checkVar, RegexOptions.IgnoreCase);
+                            if (checkIn.Success)
+                            {
+                                result0 = Regex.Replace(result, "/", "_");
+                            }
 						}
 						else
 						{
@@ -56,7 +61,11 @@ namespace ocr_wz.counter
 								sCounterWz = sCounterWz.Remove(5);
 							}
 							result = result.Remove(startIndex:6) + sCounterWz;
-							result0 = Regex.Replace(result, "/", "_");
+                            var checkIn = Regex.Match(result, checkVar, RegexOptions.IgnoreCase);
+                            if (checkIn.Success)
+                            {
+                                result0 = Regex.Replace(result, "/", "_");
+                            }
 						}
 					}
 					catch
@@ -67,7 +76,11 @@ namespace ocr_wz.counter
                 else if (sCounterWz.Length == 5)
                 {
                     result = result.Remove(startIndex:6) + sCounterWz;
-                    result0 = Regex.Replace(result, "/", "_");
+                    var checkIn = Regex.Match(result, checkVar, RegexOptions.IgnoreCase);
+                    if (checkIn.Success)
+                    {
+                        result0 = Regex.Replace(result, "/", "_");
+                    }
                 }
 				
 			}
@@ -82,9 +95,8 @@ namespace ocr_wz.counter
                     {
                         int intsCounter = Int32.Parse(sCounterWz);
                         result = result + sCounterWz;
-                        var checkVar = @"^[W-Z][W-Z]/[0-9][0-9]/[0-9][0-9][0-9][0-9][0-9]";
                         var checkIn = Regex.Match(result, checkVar, RegexOptions.IgnoreCase);
-                        if (!checkIn.Success)
+                        if (checkIn.Success)
                         {
                             result0 = Regex.Replace(result, "/", "_");
                         }
