@@ -32,10 +32,15 @@ namespace ocr_wz.compilerDocName
 			text = Regex.Replace(text, "WZ4", "WZ/");
 			text = Regex.Replace(text, "W2/", "WZ/");
 			text = Regex.Replace(text, "WŻ/", "WZ/");
+            text = Regex.Replace(text, "WZ/16/", "WZ/18/");//!!!!!!!!
+            text = Regex.Replace(text, "WZ/15/", "WZ/18/");//!!!!!!!!
 			text = Regex.Replace(text, "”", "");
 			text = Regex.Replace(text, "WWZ/", "WZ/");
             text= Regex.Replace(text, @"vv2/", "WZ/");
             text = Regex.Replace(text, "WVZ/", "WZ/");
+            text = Regex.Replace(text, "WZ/818/", "WZ/18/");
+            text = Regex.Replace(text, "WZ/4", "WZ/1");
+            text = Regex.Replace(text, "WZ/i1", "WZ/1");
             text = Regex.Replace(text, "2A", "ZA");
             text = Regex.Replace(text, "ZA[0-9A-Za-z]/", "ZAS/");
             text = Regex.Replace(text, "ZAS[0-9A-Za-z]/", "ZAS/");

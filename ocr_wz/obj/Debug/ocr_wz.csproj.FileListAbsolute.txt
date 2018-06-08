@@ -15,5 +15,4 @@ C:\projekty_csharp\ocr_reader\ocr_wz\ocr_wz\bin\x64\Debug\ocr_wz.exe.config
 C:\projekty_csharp\ocr_reader\ocr_wz\ocr_wz\bin\x64\Debug\ocr_wz.exe
 C:\projekty_csharp\ocr_reader\ocr_wz\ocr_wz\bin\x64\Debug\ocr_wz.pdb
 C:\projekty_csharp\ocr_reader\ocr_wz\ocr_wz\bin\x64\Debug\Magick.NET-Q8-x64.dll
-C:\projekty_csharp\ocr_reader\ocr_wz\ocr_wz\bin\Debug\ocr_wz.exe.CodeAnalysisLog.xml
-C:\projekty_csharp\ocr_reader\ocr_wz\ocr_wz\bin\Debug\ocr_wz.exe.lastcodeanalysissucceeded
+C:\projekty_csharp\ocr_reader\ocr_wz\ocr_wz\obj\Debug\ocr_wz.csprojResolveAssemblyReference.cache

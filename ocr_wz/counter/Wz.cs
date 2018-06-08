@@ -82,7 +82,12 @@ namespace ocr_wz.counter
                     {
                         int intsCounter = Int32.Parse(sCounterWz);
                         result = result + sCounterWz;
-                        result0 = Regex.Replace(result, "/", "_");
+                        var checkVar = @"^[W-Z][W-Z]/[0-9][0-9]/[0-9][0-9][0-9][0-9][0-9]";
+                        var checkIn = Regex.Match(result, checkVar, RegexOptions.IgnoreCase);
+                        if (!checkIn.Success)
+                        {
+                            result0 = Regex.Replace(result, "/", "_");
+                        }
                     }
                     catch
                     {
