@@ -16,8 +16,9 @@ namespace ocr_wz
 	{
 		public PdfOcrDone(string pdfName)
 		{
-			string przetworzone = pdfName.Replace("po_ocr\\", "po_ocr\\przetworzone\\");
-			File.Move(pdfName, przetworzone);
+            pdfName = pdfName.Replace(".txt", ".pdf");
+			File.Move(pdfName, pdfName.Replace("po_ocr\\", "po_ocr\\przetworzone\\"));
+            File.Delete(pdfName.Replace(".pdf", ".txt"));
 		}
 	}
 }

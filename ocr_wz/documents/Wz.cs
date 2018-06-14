@@ -27,9 +27,8 @@ namespace ocr_wz.documents
 			                               FileMode.Open, FileAccess.ReadWrite);
 			DataTable docNames = new DataTable();
 			docNames.Columns.Add("WZ", typeof(string));
-			try
-			{
-				StreamReader sr = new StreamReader(fs);
+
+            StreamReader sr = new StreamReader(fs);
 				while (!sr.EndOfStream)
 				{
 					string text1 = sr.ReadLine().Replace(" ", "");
@@ -110,7 +109,6 @@ namespace ocr_wz.documents
                                 CopyNewName.CopyWZ();
                             }
                         }
-                        PdfOcrDone pdfDone = new PdfOcrDone(pdfName);
                     }
                     else
                     {
@@ -148,16 +146,10 @@ namespace ocr_wz.documents
                             }
 
                         }
-                        PdfOcrDone pdfDone = new PdfOcrDone(pdfName);
+                        
                     }
                 }
 				fs.Close();
-				File.Delete(fileNameTXT);
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine("Nie odnaleziono pliku txt!" + ex);
-			}
 		}
 	}
 }

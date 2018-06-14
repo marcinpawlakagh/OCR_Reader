@@ -106,8 +106,6 @@
     <Compile Include="documents\Schenker.cs" />
     <Compile Include="documents\Ww.cs" />
     <Compile Include="documents\Wz.cs" />
-    <Compile Include="documents\WzRaben.cs" />
-    <Compile Include="documents\WzWw.cs" />
     <Compile Include="documents\Zas.cs" />
     <Compile Include="ExistPath.cs" />
     <Compile Include="extention\Bmp.cs" />

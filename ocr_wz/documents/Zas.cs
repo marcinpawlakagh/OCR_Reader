@@ -83,7 +83,6 @@ namespace ocr_wz.documents
 							CopyNewName.CopyZAS();
 						}
 					}
-					PdfOcrDone pdfDone = new PdfOcrDone(pdfName);
 				}
 				else
 				{
@@ -97,11 +96,9 @@ namespace ocr_wz.documents
 						CopyNewName.CopyZAS();
 						
 					}
-					PdfOcrDone pdfDone = new PdfOcrDone(pdfName);
 				}
 				
 				fs.Close();
-				File.Delete(fileNameTXT);
 			}
 			catch
 			{
@@ -111,8 +108,6 @@ namespace ocr_wz.documents
 				string docName = pdfName.Replace(Config.inPath + "\\!ocr\\po_ocr\\", "");
 				Copy CopyNewName = new Copy(pdfName, year, docName, fileLogName);
 				CopyNewName.CopyOther();
-				PdfOcrDone pdfDone = new PdfOcrDone(pdfName);
-				File.Delete(fileNameTXT);
 			}
 		}
 	}

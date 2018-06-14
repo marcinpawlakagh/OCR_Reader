@@ -17,7 +17,7 @@ namespace ocr_wz.compilerDocName
 		public string resultFV;
 		public Fv(string result)
 		{
-			resultFV = result;
+            resultFV = result;
 		}
 	}
 }
