@@ -35,9 +35,9 @@ namespace ocr_wz.counter
 					{
                         sCounterWz = Regex.Replace(sCounterWz, @"[A-Za-zĘęÓóĄąŚśŁłŻżŹźĆćŃń”—„|]", "");
 					}
-					if (sCounterWz.Length > 6)
+					if (sCounterWz.Length > 5)
 					{
-						sCounterWz = sCounterWz.Remove(6);
+						sCounterWz = sCounterWz.Remove(5);
 					}
 					try
 					{

@@ -53,6 +53,7 @@ namespace ocr_wz.documents
 					{
 						compilerDocName.Schenker SchenkerName = new ocr_wz.compilerDocName.Schenker(text);
 						documents = SchenkerName.resultSchenker.Split(',');
+                        documents = SchenkerName.resultSchenker.Split(';');
 						
 						foreach (string row in documents)
 						{

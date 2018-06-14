@@ -23,7 +23,8 @@ namespace ocr_wz.compilerDocName
 			result = Regex.Replace(result, "wz", "WZ");
 			result = Regex.Replace(result, @"oduWZ", "");
 			result = Regex.Replace(result, "[a-z]" , "");
-			result = Regex.Replace(result, @"[~`!@#$%^&\*()_+B-EG-RT-Uęóąśłżźćń;:'\|<.>?""\]\.\-]", "");
+            result = Regex.Replace(result, "-", "");
+			result = Regex.Replace(result, @"[~`!@#$%^&\*()_+B-EG-RT-Uęóąśłżźćń:'\|<.>?""\]\.\-]", "");
 			resultSchenker = Regex.Replace(result, "WZWZ", "WZ");
 		}
 	}

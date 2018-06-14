@@ -24,14 +24,13 @@ namespace ocr_wz.compilerDocName
             result = Regex.Replace(result, @"WZ/T8/", "WZ/18/");
             result = Regex.Replace(result, @"WZ/188", "WZ/18/");
             result = Regex.Replace(result, @"WZ/8/", "WZ/18/");
+            result = Regex.Replace(result, @"WZ[!l]", "WZ/");
+            result = Regex.Replace(result, @"WZ11", "WZ/1");
+            result = Regex.Replace(result, @"WZ/18.*/", "WZ/18/");
 			int ile = result.Length;
-			for (int i = 0; i < ile + 10; i++ )
+			for (int i = 0; i < ile + 20; i++ )
 			{
-				result = Regex.Replace(result, @"[:punct:]WZ/", "WZ/");
-				result = Regex.Replace(result, @"[[]]WZ/", "WZ/");
-				result = Regex.Replace(result, @"[.]WZ/", "WZ/");
-				result = Regex.Replace(result, @"[:numeric:]WZ/", "WZ/");
-                result = Regex.Replace(result, @"[-|0-9A-Za-ząĄęĘóÓłŁśŚżŻźŹćĆńŃ\=„\*+',;\._<>""()©«$%/]WZ/", "WZ/");
+                result = Regex.Replace(result, @".*WZ/", "WZ/");
 				result = result.Replace("[","");
 				result = result.Replace("]","");
                 result = result.Replace("—", "");
